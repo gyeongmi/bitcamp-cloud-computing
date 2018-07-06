@@ -13,15 +13,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @SuppressWarnings("serial")
-@WebServlet("/member/delete")
-public class MemberDeleteServlet extends HttpServlet {
+@WebServlet("/member/update")
+public class MemberUpdateServlet extends HttpServlet{
     @Override
-    // delete는 doget
-    // stmt를 rs에 넣지 않음
-    // stmt.executeUdate() 임
-    
-    
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
+        
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         
@@ -29,35 +26,35 @@ public class MemberDeleteServlet extends HttpServlet {
         out.println("<html>");
         out.println("<head>");
         out.println("<meta charset='UTF-8'>");
-        out.println("<meta http-equiv='Refresh' contest='1;url=list'>");
-        out.println("<title>멤버 삭제</title>");
+        out.println("<meta http-equiv='Refresh' content='1;url=list'>");
+        out.println("<title>회원 변경</title>");
         out.println("</head>");
         out.println("<body>");
-        out.println("<h1>멤버 삭제 결과</h1>");
-
+        out.println("<h1>회원 변경 결과</h1>");
+        
         try {
             Class.forName("com.mysql.jdbc.Driver");
             try(Connection con = DriverManager.getConnection(
-                    "jdbc:mysql://13.124.153.245:3306/studydb",
+                    "jdbc:mysql://13.124.153.245/studydb",
                     "study", "1111");
                 PreparedStatement stmt = con.prepareStatement(
-                    "delete from pms2_member where mid=?");){
-                stmt.setString(1, request.getParameter("id"));
+                    "update pms2_member set email=?, pwd=password(?) where mid=?");){
+                stmt.setString(1, request.getParameter("email"));
+                stmt.setString(2, request.getParameter("password"));
+                stmt.setString(3, request.getParameter("id"));
                 
                 if(stmt.executeUpdate() == 0) {
-                    out.println("<p>해당 회원이 없습니다.</p>");
+                    out.println("<p>해탕 회원이 존재하지 않습니다.</p>");
                 }else {
-                    out.println("<p>삭제하였습니다.</p>");
+                    out.println("<p>변경하였습니다.</p>");
                 }
-
             }
             
         } catch (Exception e) {
-            out.println("<p>삭제 실패!</p>");
+            out.println("<p>변경 실패!</p>");
             e.printStackTrace(out);
         }
-        
-        
+
         out.println("</body>");
         out.println("</html>");
         

@@ -21,6 +21,7 @@ public class MemberListServlet extends HttpServlet{
     // response로 utf-8 설정
     // rs = stmt.excuteQuery
     // printf에서 rs.getString
+    // <a href='view?id=%s'>%s</a> 뷰로 이동, rs.getString("mid")로 받음
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html; charset=UTF-8");
         PrintWriter out = response.getWriter();
