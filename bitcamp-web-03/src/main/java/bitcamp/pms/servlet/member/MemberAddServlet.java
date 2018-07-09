@@ -58,6 +58,7 @@ public class MemberAddServlet extends HttpServlet{
         }
         out.println("</body>");
         out.println("</html>");
+        response.sendRedirect("list");
     }
     /*private void insert(Member member) throws Exception{
       //memberDao.insert(member);

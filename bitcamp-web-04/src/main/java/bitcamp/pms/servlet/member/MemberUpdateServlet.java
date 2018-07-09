@@ -5,58 +5,47 @@ import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.util.List;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import bitcamp.pms.dao.MemberDao;
+import bitcamp.pms.domain.Member;
+
 @SuppressWarnings("serial")
 @WebServlet("/member/update")
 public class MemberUpdateServlet extends HttpServlet{
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.setCharacterEncoding("UTF-8");
-        
-        response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
-        
-        out.println("<!DOCTYPE html>");
-        out.println("<html>");
-        out.println("<head>");
-        out.println("<meta charset='UTF-8'>");
-        out.println("<meta http-equiv='Refresh' content='1;url=list'>");
-        out.println("<title>회원 변경</title>");
-        out.println("</head>");
-        out.println("<body>");
-        out.println("<h1>회원 변경 결과</h1>");
-        
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            try(Connection con = DriverManager.getConnection(
-                    "jdbc:mysql://13.124.153.245/studydb",
-                    "study", "1111");
-                PreparedStatement stmt = con.prepareStatement(
-                    "update pms2_member set email=?, pwd=password(?) where mid=?");){
-                stmt.setString(1, request.getParameter("email"));
-                stmt.setString(2, request.getParameter("password"));
-                stmt.setString(3, request.getParameter("id"));
-                
-                if(stmt.executeUpdate() == 0) {
-                    out.println("<p>해탕 회원이 존재하지 않습니다.</p>");
-                }else {
-                    out.println("<p>변경하였습니다.</p>");
-                }
-            }
-            
-        } catch (Exception e) {
-            out.println("<p>변경 실패!</p>");
-            e.printStackTrace(out);
-        }
+        //request.setCharacterEncoding("UTF-8");
 
-        out.println("</body>");
-        out.println("</html>");
-        
+        // 센드리다이렉트 할거기 떄문에 response.setContentType("text/html;charset=UTF-8");
+
+        try {
+            MemberDao memberDao = (MemberDao) getServletContext().getAttribute("memberDao");
+            Member member = new Member();
+            member.setId(request.getParameter("id"));
+            member.setEmail(request.getParameter("email"));
+            member.setPassword(request.getParameter("password"));
+
+            if (memberDao.update(member) == 0) {
+
+                RequestDispatcher rd = request.getRequestDispatcher("/member/updatefail.jsp"); //어디로 배달할지 경로
+                rd.forward(request, response);
+                
+            } else {
+                response.sendRedirect("list");
+            }
+           
+        } catch (Exception e) {
+            request.setAttribute("error", e);
+            RequestDispatcher rd = request.getRequestDispatcher("/error.jsp"); //어디로 배달할지 경로
+            rd.forward(request, response);
+        }
     }
 }

@@ -1,65 +1,32 @@
 package bitcamp.pms.servlet.member;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import bitcamp.pms.dao.MemberDao;
+
 @SuppressWarnings("serial")
 @WebServlet("/member/delete")
-public class MemberDeleteServlet extends HttpServlet {
+public class MemberDeleteServlet extends HttpServlet{
     @Override
-    // delete는 doget
-    // stmt를 rs에 넣지 않음
-    // stmt.executeUdate() 임
-    
-    
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
         
-        out.println("<!DOCTYPE html>");
-        out.println("<html>");
-        out.println("<head>");
-        out.println("<meta charset='UTF-8'>");
-        out.println("<meta http-equiv='Refresh' contest='1;url=list'>");
-        out.println("<title>멤버 삭제</title>");
-        out.println("</head>");
-        out.println("<body>");
-        out.println("<h1>멤버 삭제 결과</h1>");
-
         try {
-            Class.forName("com.mysql.jdbc.Driver");
-            try(Connection con = DriverManager.getConnection(
-                    "jdbc:mysql://13.124.153.245:3306/studydb",
-                    "study", "1111");
-                PreparedStatement stmt = con.prepareStatement(
-                    "delete from pms2_member where mid=?");){
-                stmt.setString(1, request.getParameter("id"));
-                
-                if(stmt.executeUpdate() == 0) {
-                    out.println("<p>해당 회원이 없습니다.</p>");
-                }else {
-                    out.println("<p>삭제하였습니다.</p>");
-                }
-
-            }
-            
+            MemberDao memberDao = (MemberDao) getServletContext().getAttribute("memberDao");
+            memberDao.delete(request.getParameter("id"));
+           response.sendRedirect("list"); //성공하든 실패하든 무조건 list로 돌아간다
+           
         } catch (Exception e) {
-            out.println("<p>삭제 실패!</p>");
-            e.printStackTrace(out);
+            request.setAttribute("error", e);
+            RequestDispatcher rd = request.getRequestDispatcher("/error.jsp"); //어디로 배달할지 경로
+            rd.forward(request, response);
         }
-        
-        
-        out.println("</body>");
-        out.println("</html>");
-        
     }
+
 }

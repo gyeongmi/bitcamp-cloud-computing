@@ -6,72 +6,59 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import bitcamp.pms.dao.MemberDao;
+import bitcamp.pms.domain.Member;
+
 @SuppressWarnings("serial")
 @WebServlet("/member/list")
-public class MemberListServlet extends HttpServlet{
+public class MemberListServlet extends HttpServlet {
+
     @Override
-    // member list 는 doGet
-    // response로 utf-8 설정
-    // rs = stmt.excuteQuery
-    // printf에서 rs.getString
-    // <a href='view?id=%s'>%s</a> 뷰로 이동, rs.getString("mid")로 받음
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.setContentType("text/html; charset=UTF-8");
+    protected void doGet(
+            HttpServletRequest request, 
+            HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        
-        out.println("<!DOCTYPE html>");
-        out.println("<html>");
-        out.println("<head>");
-        out.println("<meta charset='UTF-8'>");
-        out.println("<title>멤버 목록</title>");
-        out.println("</head>");
-        out.println("<body>");
-        out.println("<h1>멤버 목록</h1>");
-        
-        out.println("<p><a href='form.html'>새회원</a></p>");
-        out.println("<table border='1'>");
-        out.println("<tr>");
-        out.println("    <th>아이디</th><th>이메일</th>");
-        out.println("</tr>");
+
         
         try {
-            Class.forName("com.mysql.jdbc.Driver");
-            try(Connection con = DriverManager.getConnection(
-                    "jdbc:mysql://13.124.153.245:3306/studydb",
-                    "study", "1111");
-                PreparedStatement stmt = con.prepareStatement(
-                        "select mid, email from pms2_member");
-                ResultSet rs = stmt.executeQuery();) {
-                
-                while(rs.next()) {
-                    out.println("<tr>");
-                    out.printf("    <td><a href='view?id=%s'>%s</a></td><td>%s</td>\n",
-                            rs.getString("mid"),
-                            rs.getString("mid"),
-                            rs.getString("email"));
 
-                    out.println("</tr>");
-                }
-            }
+            MemberDao memberDao = (MemberDao) getServletContext().getAttribute("memberDao");
+
+            List<Member> list = memberDao.selectList();
+            request.setAttribute("list", list);
+            //member dao 리턴하는 list(select list 호출)를 리퀘스트에 담는다.
+            //요청이 들어올 때 http 서블릿리퀘스트 객체가 만들어져서 응답할때까지 계속 유지된다
+            //aaa라는 값을 저장하면 꺼내 쓸수 있다는 것
             
+            //인클루드 하기 위해서 요청 배달자
+            RequestDispatcher rd = request.getRequestDispatcher("/member/list.jsp"); //어디로 배달할지 경로
+            rd.include(request, response);
         } catch (Exception e) {
-            out.println("<p>목록 가져오기 실패!</p>");
-            e.printStackTrace(out);
+            request.setAttribute("error", e);
+            RequestDispatcher rd = request.getRequestDispatcher("/error.jsp"); //어디로 배달할지 경로
+            rd.forward(request, response);
         }
-        
-        
         out.println("</table>");
         out.println("</body>");
         out.println("</html>");
-
-        
-        
     }
+    
+
+  
 }
+
+
+
+
