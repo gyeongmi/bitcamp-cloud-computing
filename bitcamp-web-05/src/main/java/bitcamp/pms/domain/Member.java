@@ -24,6 +24,5 @@ public class Member {
         this.password = password;
     }
     
-    
-
+    //생성자 만들지 않으면 자동 생성 public Member() {}
 }

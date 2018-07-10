@@ -5,7 +5,6 @@ import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -18,34 +17,30 @@ import bitcamp.pms.dao.MemberDao;
 import bitcamp.pms.domain.Member;
 
 @SuppressWarnings("serial")
-@WebServlet("/member/update")
-public class MemberUpdateServlet extends HttpServlet{
+@WebServlet("/member/add")
+public class MemberAddServlet extends HttpServlet{
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         //request.setCharacterEncoding("UTF-8");
-
-        // 센드리다이렉트 할거기 떄문에 response.setContentType("text/html;charset=UTF-8"); 삭제
-
+        
         try {
+            
             MemberDao memberDao = (MemberDao) getServletContext().getAttribute("memberDao");
             Member member = new Member();
             member.setId(request.getParameter("id"));
             member.setEmail(request.getParameter("email"));
             member.setPassword(request.getParameter("password"));
+            
+            //insert(member);
+            memberDao.insert(member);
+            response.sendRedirect("list");
+            
 
-            if (memberDao.update(member) == 0) {
-
-                RequestDispatcher rd = request.getRequestDispatcher("/member/updatefail.jsp"); //어디로 배달할지 경로
-                rd.forward(request, response);
-                
-            } else {
-                response.sendRedirect("list");
-            }
-           
         } catch (Exception e) {
             request.setAttribute("error", e);
             RequestDispatcher rd = request.getRequestDispatcher("/error.jsp"); //어디로 배달할지 경로
             rd.forward(request, response);
         }
     }
+
 }
