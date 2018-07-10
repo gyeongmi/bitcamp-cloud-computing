@@ -24,7 +24,6 @@ public class ContextLoaderListener implements ServletContextListener{
             //1.여기에서 만든다
             String resource = "bitcamp/pms/config/mybatis-config.xml"; //3.
             /*FileInputStream in = new FileInputStream(file); 어느경로에있는지 정확하게 기입해야돼서
-             * 
             */
             InputStream inputStream = Resources.getResourceAsStream(resource); //4.읽어들이는 객체만들어줌(inpustStream)
             SqlSessionFactory sqlSessionFactory =
@@ -32,7 +31,7 @@ public class ContextLoaderListener implements ServletContextListener{
             
             MemberDao memberDao = new MemberDao(sqlSessionFactory); //2.
             ServletContext sc = sce.getServletContext();
-            sc.setAttribute("memberDao", memberDao); //memberDao 이런 문자열로 리턴해준다
+            sc.setAttribute("memberDao", memberDao); 
         }catch (Exception e) {
             e.printStackTrace();
         }
