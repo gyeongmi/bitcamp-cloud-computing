@@ -13,16 +13,18 @@
                                     expression="bitcamp.pms.test.*"/>
         </context:component-scan>
         
-        <bean id="sqlSessionFactoryBuilder" class="org.apache.ibatis.session.SqlSessionFactoryBuilder"/>
-        <!-- ContextLoaderListener에서 import한 목롤 열어서 복사해서 가져오면 됨 -->
+        <!--  -->
+        
+<!--         <bean id="sqlSessionFactoryBuilder" class="org.apache.ibatis.session.SqlSessionFactoryBuilder"/>
+        ContextLoaderListener에서 import한 목롤 열어서 복사해서 가져오면 됨 -->
         
         <!-- Object factory = sqlSessionFactoryBuilder.build();
         icoContainer.put("sqlSessionFactory",factory); -->
-        <bean id="sqlSessionFactory" 
+<!--         <bean id="sqlSessionFactory" 
             factory-bean="sqlSessionFactoryBuilder"
             factory-method="build">
         <constructor-arg ref="inputStream"/>
-        </bean>
+        </bean> -->
         <!-- sqlSessionFactoryBuilder 이객체에 대해서 build 메소드 (인스턴스 메소드)
                     파라미터값으로 inputStream 받아와야 함
                     객체를 넘길떄는 밸루(8개의 기본값,String까지)가 아니라 레퍼런스(인스턴스)
@@ -31,14 +33,24 @@
         <!-- Object obj = Resources.getResourceAsStream("bitcamp..."); 
              iocContainer.put("inputStream", obj);
                     위의 코드는 아래 코드와 같다-->
-        <bean id="inputStream" 
+       <!--  <bean id="inputStream" 
             class="org.apache.ibatis.io.Resources"
             factory-method="getResourceAsStream">
             <constructor-arg value="bitcamp/pms/config/mybatis-config.xml"/>
-        </bean>
+        </bean> -->
           
         <!-- Resource 이클래스에 대해서 스태틱 메소드를 호출
                     이메소드를 리턴한 값을 id 이름으로 저장한다
                      파라미터(타입 String) 값을 받아온다-->
-
+                     
+                     
+                     
+                     <!-- 공장에서 SqlSessionFactory 만들기
+                     =>실행원리!
+                     - class 속성에 지정된 클래스가 FactoryBean 구현체라면,
+                     - 그 객체를 만들어 저장하는 것이 아니라
+                     - 그 객체의 getObject()를 호출하여 그 리턴값을 저장한다.
+                                                 보통은 객체(class="")를 만들어 이름(id="")으로 저장하는 건데
+                     -->
+<bean id="sqlSessionFactory" class="bitcamp.pms.factory.SqlSessionFactoryBean"/>
 </beans>

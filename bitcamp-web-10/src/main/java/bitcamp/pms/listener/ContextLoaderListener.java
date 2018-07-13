@@ -19,7 +19,17 @@ public class ContextLoaderListener
             ClassPathXmlApplicationContext iocContainer = 
                     new ClassPathXmlApplicationContext(
                             "bitcamp/pms/config/application-context.xml");
+            String[] names = iocContainer.getBeanDefinitionNames();
+            System.out.println("-----------------------------------------");
+            for(String name : names) {
+                System.out.printf("%s ==> %s\n", name,
+                        iocContainer.getBean(name).getClass().getName());
+            }
+            System.out.println("-----------------------------------------");
+            
+            
             //스프링 ioc에는 addbean이 없다
+            
             ServletContext sc = sce.getServletContext();
             sc.setAttribute("iocContainer", iocContainer);
             
