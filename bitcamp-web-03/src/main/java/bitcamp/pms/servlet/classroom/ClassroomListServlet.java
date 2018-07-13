@@ -7,12 +7,16 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import bitcamp.pms.dao.ClassroomDao;
+import bitcamp.pms.domain.Classroom;
 
 @SuppressWarnings("serial")
 @WebServlet("/classroom/list")
@@ -38,25 +42,19 @@ public class ClassroomListServlet extends HttpServlet {
         out.println("</tr>");
         
         try {
-            Class.forName("com.mysql.jdbc.Driver");
-            try (
-                Connection con = DriverManager.getConnection(
-                    "jdbc:mysql://13.124.153.245:3306/studydb",
-                    "study", "1111");
-                PreparedStatement stmt = con.prepareStatement(
-                    "select crno,titl,sdt,edt,room from pms2_classroom");
-                ResultSet rs = stmt.executeQuery();) {
-                
-                while (rs.next()) {
-                    out.println("<tr>");
-                    out.printf("    <td>%d</td>\n", rs.getInt("crno"));
-                    out.printf("    <td><a href='view?no=%d'>%s</a></td>\n", 
-                            rs.getInt("crno"), rs.getString("titl"));
-                    out.printf("    <td>%s~%s</td>\n",
-                            rs.getDate("sdt"), rs.getDate("edt"));
-                    out.printf("    <td>%s</td>\n", rs.getString("room"));
-                    out.println("</tr>");
-                }
+            
+            ClassroomDao classroomDao = (ClassroomDao) getServletContext().getAttribute("classroomDao");
+            List<Classroom> list = classroomDao.selectList();
+            
+            for(Classroom classroom : list) {            
+                out.println("<tr>");
+                out.printf("    <td>%d</td>\n", classroom.getNo());
+                out.printf("    <td><a href='view?no=%d'>%s</a></td>\n", 
+                        classroom.getNo(), classroom.getTitle());
+                out.printf("    <td>%s~%s</td>\n",
+                        classroom.getStartDate(), classroom.getEndDate());
+                out.printf("    <td>%s</td>\n", classroom.getRoom());
+                out.println("</tr>");
             }
 
         } catch (Exception e) {
@@ -67,4 +65,28 @@ public class ClassroomListServlet extends HttpServlet {
         out.println("</body>");
         out.println("</html>");
     }
+    
+/*    private ArrayList<Classroom> selectList() throws Exception{
+        Class.forName("com.mysql.jdbc.Driver");
+        try (
+            Connection con = DriverManager.getConnection(
+                "jdbc:mysql://13.124.153.245:3306/studydb",
+                "study", "1111");
+            PreparedStatement stmt = con.prepareStatement(
+                "select crno,titl,sdt,edt,room from pms2_classroom");
+            ResultSet rs = stmt.executeQuery();) {
+            
+            ArrayList<Classroom> list = new ArrayList<>();
+            while (rs.next()) {
+                Classroom classroom = new Classroom();
+                classroom.setNo(rs.getInt("crno"));
+                classroom.setTitle(rs.getString("titl"));
+                classroom.setStartDate(rs.getDate("sdt"));
+                classroom.setEndDate(rs.getDate("edt"));
+                classroom.setRoom(rs.getString("room"));
+                list.add(classroom);
+            }
+            return list;
+        }
+    }*/
 }

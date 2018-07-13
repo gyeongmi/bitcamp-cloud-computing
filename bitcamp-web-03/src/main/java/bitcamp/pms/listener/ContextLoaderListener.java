@@ -5,6 +5,8 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 
+import bitcamp.pms.dao.BoardDao;
+import bitcamp.pms.dao.ClassroomDao;
 import bitcamp.pms.dao.MemberDao;
 
 @WebListener
@@ -15,8 +17,16 @@ public class ContextLoaderListener implements ServletContextListener{
         MemberDao memberDao = new MemberDao(
                 "jdbc:mysql://13.124.153.245:3306/studydb",
                 "study", "1111");
+        BoardDao boardDao = new BoardDao(
+                "jdbc:mysql://13.124.153.245:3306/studydb", 
+                "study", "1111");
+        ClassroomDao classroomDao = new ClassroomDao(
+                "jdbc:mysql://13.124.153.245:3306/studydb", 
+                "study", "1111");
         ServletContext sc = sce.getServletContext();
         sc.setAttribute("memberDao", memberDao); //memberDao 이런 문자열로 리턴해준다
+        sc.setAttribute("boardDao", boardDao);
+        sc.setAttribute("classroomDao", classroomDao);
     }
     
     

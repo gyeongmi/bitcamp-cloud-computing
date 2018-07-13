@@ -15,6 +15,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import bitcamp.pms.dao.ClassroomDao;
+import bitcamp.pms.domain.Classroom;
+
 @SuppressWarnings("serial")
 @WebServlet("/classroom/update")
 public class ClassroomUpdateServlet extends HttpServlet{
@@ -36,26 +39,20 @@ public class ClassroomUpdateServlet extends HttpServlet{
         out.println("<h1>강의 변경 결과</h1>");
         
         try {
-            Class.forName("com.mysql.jdbc.Driver");
-            try (
-                Connection con = DriverManager.getConnection(
-                    "jdbc:mysql://13.124.153.245:3306/studydb",
-                    "study", "1111");
-                PreparedStatement stmt = con.prepareStatement(
-                    "update pms2_classroom set titl=?, sdt=?, edt=?, room=? where crno=?");) {
+                ClassroomDao classroomDao = (ClassroomDao) getServletContext().getAttribute("classroomDao");
                 
-                stmt.setString(1, request.getParameter("title"));
-                stmt.setDate(2, Date.valueOf(request.getParameter("startDate")), Calendar.getInstance(Locale.KOREAN));
-                stmt.setDate(3, Date.valueOf(request.getParameter("endDate")), Calendar.getInstance(Locale.KOREAN));
-                stmt.setString(4, request.getParameter("room"));
-                stmt.setInt(5, Integer.parseInt(request.getParameter("no")));
+                Classroom classroom = new Classroom();
+                classroom.setTitle(request.getParameter("title"));
+                classroom.setStartDate(Date.valueOf(request.getParameter("startDate")));
+                classroom.setEndDate(Date.valueOf(request.getParameter("endDate")));
+                classroom.setRoom(request.getParameter("room"));
+                classroom.setNo(Integer.parseInt(request.getParameter("no")));
                 
-                if (stmt.executeUpdate() == 0) {
+                if (classroomDao.update(classroom) == 0) {
                     out.println("<p>해당 강의가 존재하지 않습니다.</p>");
                 } else {
                     out.println("<p>변경하였습니다.</p>");
                 }
-            }
         } catch (Exception e) {
             out.println("<p>변경 실패!</p>");
             e.printStackTrace(out);
@@ -64,5 +61,25 @@ public class ClassroomUpdateServlet extends HttpServlet{
         out.println("</html>");
     
     }
+    
+    /*private int update(Classroom classroom) throws Exception{
+        Class.forName("com.mysql.jdbc.Driver");
+        try (
+            Connection con = DriverManager.getConnection(
+                "jdbc:mysql://13.124.153.245:3306/studydb",
+                "study", "1111");
+            PreparedStatement stmt = con.prepareStatement(
+                "update pms2_classroom set titl=?, sdt=?, edt=?, room=? where crno=?");){
+            stmt.setString(1, classroom.getTitle());
+            stmt.setDate(2, classroom.getStartDate(), Calendar.getInstance(Locale.KOREA));
+            stmt.setDate(3, classroom.getEndDate(), Calendar.getInstance(Locale.KOREA));
+            stmt.setString(4, classroom.getRoom());
+            stmt.setInt(5, classroom.getNo());
+            
+            return stmt.executeUpdate();
+            
+        }
+        
+    }*/
 
 }

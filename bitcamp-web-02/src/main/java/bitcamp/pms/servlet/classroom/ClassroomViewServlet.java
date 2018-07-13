@@ -78,7 +78,7 @@ public class ClassroomViewServlet extends HttpServlet{
                     out.println("<p>");
                     out.println("<a href='list'>목록</a>");
                     out.println("<button>변경</button>");
-                    out.printf("<a href='delete?no=%d'>삭제</a>\n", rs.getInt("crno"));
+                    out.printf("<a href='delete?no=%d'>삭제</a>\n", Integer.parseInt(request.getParameter("no")));
                     out.println("</p>");
                     out.println("</form>");
                 }

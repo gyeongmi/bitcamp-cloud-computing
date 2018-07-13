@@ -3,15 +3,27 @@
   PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
-<!-- db커넥션을 빌려주고 임대해주는 역할 environments  -->
+<!-- typeAliases 패키지(mybatis-Configuration->typeAliases)  name 설정하고 membermapper로 감 -->
+<properties resource="bitcamp/pms/config/jdbc.properties"></properties>
+<!-- properties 파일을 만들고 파일 주소를 넣는데, 중간에 슬래시를 넣어야한다. -->
+<typeAliases>
+    <package name="bitcamp.pms.domain"/>    
+</typeAliases>
   <environments default="development">
     <environment id="development">
       <transactionManager type="JDBC"/>
       <dataSource type="POOLED">
+        <property name="driver" value="${jdbc.driver}"/>
+        <property name="url" value="${jdbc.url}"/>
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+        <!-- 
         <property name="driver" value="com.mysql.jdbc.Driver"/>
         <property name="url" value="jdbc:mysql://13.124.153.245:3306/studydb"/>
         <property name="username" value="study"/>
         <property name="password" value="1111"/>
+        
+         -->
       </dataSource>
     </environment>
   </environments>

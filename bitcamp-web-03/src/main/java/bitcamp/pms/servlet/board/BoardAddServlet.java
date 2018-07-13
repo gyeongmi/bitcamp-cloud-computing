@@ -13,19 +13,16 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import bitcamp.pms.dao.BoardDao;
+import bitcamp.pms.domain.Board;
+
 @SuppressWarnings("serial")
 @WebServlet("/board/add")
 public class BoardAddServlet extends HttpServlet{
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
-        
-       /* Board board = new Board();
-        board.setTitle(request.getParameter("title"));
-        board.setContent(request.getParameter("content"));
-        board.setCreatedDate(new Date(System.currentTimeMillis()));*/
-        
-        
+
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         
@@ -45,19 +42,14 @@ public class BoardAddServlet extends HttpServlet{
         out.println("<body>");
         out.println("<h1>게시물 등록 결과</h1>");
         try {
-            //boardDao.insert(board);
-            Class.forName("com.mysql.jdbc.Driver");
-            try (
-                Connection con = DriverManager.getConnection(
-                    "jdbc:mysql://13.124.153.245:3306/studydb",
-                    "study", "1111");
-                PreparedStatement stmt = con.prepareStatement(
-                    "insert into pms2_board(titl,cont,cdt) values(?,?,now())");) {
-                
-                stmt.setString(1, request.getParameter("title"));
-                stmt.setString(2, request.getParameter("content"));
-                stmt.executeUpdate();
-            }
+            BoardDao boardDao = (BoardDao) getServletContext().getAttribute("boardDao");
+
+            Board board = new Board();
+            board.setTitle(request.getParameter("title"));
+            board.setContent(request.getParameter("content"));
+/*            board.setCreatedDate(new java.sql.Date(System.currentTimeMillis()));*/
+            boardDao.insert(board);
+            
             out.println("<p>등록 성공!</p>");
         } catch (Exception e) {
             out.println("<p>등록 실패!</p>");
@@ -66,5 +58,21 @@ public class BoardAddServlet extends HttpServlet{
         out.println("</body>");
         out.println("</html>");
     }
+    
+/*    private void insert(Board board) throws Exception {
+        Class.forName("com.mysql.jdbc.Driver");
+        try (
+            Connection con = DriverManager.getConnection(
+                "jdbc:mysql://13.124.153.245:3306/studydb",
+                "study", "1111");
+            PreparedStatement stmt = con.prepareStatement(
+                "insert into pms2_board(titl,cont,cdt) values(?,?,now())");) {
+            
+            stmt.setString(1, board.getTitle());
+            stmt.setString(2, board.getContent());
+            stmt.executeUpdate();
+        }
+        
+    }*/
 
 }
