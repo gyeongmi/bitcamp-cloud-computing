@@ -52,3 +52,70 @@
 
 ## DispatcherServlet에서 Spring IoC 컨테이너를 사용하기
 - 기존의 ApplicationContext 대신에 Spring IoC 컨테이너에 들어 있는 페이지 컨트롤러를 찾아 실행한다.
+
+## web-11 : Spring + MyBatis 연동하기
+- 기존에 직접 만든 SqlSessionFactoryBean 대신에 Mybatis가 제공하는 SqlSessionFactoryBean을 사용한다.
+- DB 커넥션풀은 Mybatis 대신에 Spring에서 관리한다.
+- 트랜잭션을 다룰 수 있도록 트랜잭션 관리자를 설정한다.
+- Proxy 패턴을 사용한 DAO 자동 생성 기능을 이용한다.
+
+## Mybatis에서 제공하는 SqlSessionFactoryBean 객체 사용하기
+- 기존의 SqlSessionFactoryBean 대신에 Mybats-Spring에서 제공하는 클래스 사용.
+- Mybatis를 Spring과 연동하면 DataSource는 Spring 설정된 것을 사용해야 한다.
+- Mybatis 설정 파일에 등록된 DataSource는 사용하지 않는다.
+
+## Spring에 DataSource 등록하기
+- mvnrepository.com  에서 "commons dbcp"를 검색하여 라이브러리를 찾는다.
+- 라이브러리를 build.gradle 파일에 등록하고, gradle을 이용해 가져 온다.
+- 웹 프로젝트를 리프레시 한다.
+- application-context.xml 스프링 설정 파일에 DataSource를 설정한다.
+- Spring에서 DataSource를 설정할 때는 "spring-jdbc" 라이브러리를 추가해야 한다.
+- 트랜잭션 관리자도 Spring에 등록한다.
+
+##DAO 구현체를 자동 생성하는 MapperScannerConfiguer 등록하기
+- Mybatis에서 제공하는 DAO 구현체 자동 생성기를 등록하면 개발자가 DAO 클래스를 직접 작성할 필요가 없다
+- 대신 개발자는 DAO 인터페이스만 만들면 된다
+
+## 기존의 DAO 클래스를 인터페이스로 변경하기
+- 기존에 작성된 DAO 클래스를 인터페이스로 변경한다.
+- 단 인터페이스 명과 SQL 맵퍼의 namespace가 같게 해야 한다.
+- 인터페이스의 메서드명과 SQL의 id도 같아야 한다.
+- 인터페이스의 메서드 파라미터는 한개여야 한다. 
+- 물론 메서드의 파라미터는 SQL 의 parameterType과 같아야 한다.
+
+## web-12 : Spring WebMVC의 ContextLoaderListener 사용하기
+- 기존에 직접 만든 ContextLoaderListener 대신에 Spring WebMVC에서 제공하는 클래스를 사용한다.
+- /WEB-INF/web.xml에 리스너를 등록해야 한다.
+
+## Spring의 CharacterEncodingFilter 사용하기
+- 기존에 직접 작성한 CharacterEncodingFilter 대신에 Spring의 필터를 사용하여 POST 한글 파라미터 값을 깨지지 않도록 처리한다.
+
+## web-13 : Spring WebMVC의 DispatcherServlet 사용하기
+- 기존에 직접 만든 DispatcherServlet 대신에 Spring WebMVC에서 제공하는 클래스를 사용한다.
+
+## 프론트 컨트롤러를 Spring WebMVC 클래스로 교체한다.
+- 기존에 직접 만든 DispatcherServlet을 Spring 클래스로 교체한다.
+- web.xml에 servlet을 등록해야 한다.
+
+## 페이지 컨트롤러의 @Controller에 지정한 URL을 @RequestMapping으로 옮긴다.
+- 페이지 컨트롤러의 이름으로 지정했던 URL을 요청 핸들러의 @RequestMapping으로 옮긴다.
+
+## @RequestMapping 애노테이션을 처리할 BeanPostProcessor를 등록한다.
+- 요청 핸들러에 붙인 @RequestMapping을 처리할 객체를 Spring에 따로 등록해야 한다.
+- 직접 해당 객체를 등록하지 말고, 단축 태그를 이용해 등록하라
+
+```
+<mvc:annotation-driven/>
+애노테이션을 처리할 객체
+```
+
+## web-14 : JSP 경로를 /WEB-INF/ 폴더 아래로 옮긴다.
+- /WEB-INF 폴더 아래로 JSP를 옮기면 클라이언트에서 직접 요청할 수 없다.
+- 이렇게 하면 JSP를 실행하기 위해 반드시 페이지 컨트롤러를 경유사도록 제한할 수 있다.
+
+## /webapp 에 존재하는 JSP 파일을 /WEB-INF 폴더로 옮긴다.
+- /member 폴더를 /WEB-INF/jsp 폴더로 옮긴다.
+- 프론트 컨트롤러(DispatcherServlet)에 기본으로 설정되어 있는 ViwResolver를 다른 뷰리졸버(InternalResourceViewResolver)로 교체한다.
+
+## 페이지 컨트롤러의 리턴 값을 변경한다.
+- 옮겨진 JSP 파일의 경로와 InternalResourceViewResolver에 설정된 접두사/접미사에 맞춰 view 이름을 리턴한다.

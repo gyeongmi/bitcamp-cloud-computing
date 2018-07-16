@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
+        
+
+        <context:component-scan base-package="bitcamp.pms">
+            <context:exclude-filter type="regex" 
+                                    expression="bitcamp.pms.test.*"/>
+        </context:component-scan>
+                     
+<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+    <!-- <property name="configLocation"
+    value="bitcamp/pms/config/mybatis-config.xml"/> 삭제 -->
+    <property name="dataSource" ref="dataSource"></property>
+    <!-- property name=은 setdataSource 메소드를 실행하는거고 ref는 아래에 bean id="dataSource"다 -->
+    <property name="mapperLocations" value="classpath*:bitcamp/pms/sql/**/*.xml" /> <!-- classpath* 에서 찾아라 **(하위패키지, 하위 다 찾아서 mapper 파일 읽어라 -->
+    <property name="typeAliasesPackage"
+    value="bitcamp.pms.domain"/>
+    <!-- setTypeAliasesPackage -->
+</bean>
+
+<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
+    <property name="driverClassName" value="${jdbc.driver}" />
+    <property name="url" value="${jdbc.url}" />
+    <property name="username" value="${jdbc.username}" />
+    <property name="password" value="${jdbc.password}" />
+</bean>
+
+<!-- 트랜잭션 매니저 -->
+<bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+</bean>
+
+<!-- DAO 인터페이스로부터 DAO 구현체를 자동 생성하는 객체 등록 
+     => DAO 구현체가 사용할 SQL 맵퍼 파일은 namespace 값으로 찾는다.
+     => 따라서 인터페이스 명과 SQL 맵퍼의 namespace 값은 같아야 한다.
+     => 또한 인터페이스의 메서드 명과 SQL id는 같아야 한다. -->
+<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+  <property name="basePackage"
+            value="bitcamp.pms.dao" />
+</bean>
+
+
+<!-- .properties 파일을 읽어서 그 데이터를 보관할 객체를 등록한다. -->
+<!-- 원래 같으면 properties 읽어들일 bean 태그를 작성해야 하는데 -->
+<context:property-placeholder location="classpath:bitcamp/pms/config/jdbc.properties"/>
+
+</beans>
