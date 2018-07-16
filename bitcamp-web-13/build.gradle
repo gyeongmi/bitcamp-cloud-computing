@@ -40,7 +40,10 @@ dependencies {
     compile group: 'org.mybatis', name: 'mybatis', version: '3.4.6'
     
     // Spring IoC 라이브러리 http://mavenrepository.com/artifact/org.springframework/spring-context/5.0.7.RELEASE
-    compile group: 'org.springframework', name: 'spring-context', version: '5.0.7.RELEASE'
+    // Spring WebMVC 라이브러리 => Spring WebMvc는 Spring Context 라이브러리를 사용하기 때문에
+    // WebMVC 라이브러리를 가져오면 Context 라이브러리는 자동으로 포함한다.
+    // => 따라서 Context 라이브러리를 지정하지 않아도 된다.
+    //compile group: 'org.springframework', name: 'spring-context', version: '5.0.7.RELEASE'
     
     // 아파치 DataSource 라이브러리 https://mvnrepository.com/artifact/org.apache.commons/commons-dbcp2
     compile group: 'org.apache.commons', name: 'commons-dbcp2', version: '2.4.0'
@@ -49,10 +52,7 @@ dependencies {
     compile group: 'org.springframework', name: 'spring-jdbc', version: '5.0.7.RELEASE'
     
     
-    // Spring WebMVC 라이브러리 => Spring WebMvc는 Spring Context 라이브러리르 사용하기 때문에
-    // WebMVC 라이브러리를 가져오면 Context 라이브러리는 자동으로 포함한다.
-    // => 따라서 Context 라이브러리를 지정하지 않아도 된다.
-    // https://mvnrepository.com/artifact/org.springframework/spring-webmvc
+    // Srping WebMVC 라이브러리 https://mvnrepository.com/artifact/org.springframework/spring-webmvc
     compile group: 'org.springframework', name: 'spring-webmvc', version: '5.0.7.RELEASE'
     
     

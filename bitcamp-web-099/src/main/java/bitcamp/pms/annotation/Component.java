@@ -4,8 +4,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Repository {
-    //애노테이션 상속 X
-    String value() default ""; //디폴트는 빈문자열
+public @interface Component {
+    String value() default "";
 
 }

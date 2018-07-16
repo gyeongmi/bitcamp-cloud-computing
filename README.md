@@ -39,12 +39,15 @@
 - 페이지 컨트롤러의 의존 객체를 자동으로 주입한다.
 
 ## web-10 :Spring Ioc 컨테이너 도입
-- 기존 직접 만든 Ioc 컨테이너 대신에 스프링 컨테이너를 사용한다.
+- 기존 직접 만든 Ioc 컨테이너 대신에 Spring 컨테이너를 사용한다.
 
-## 라이브러리 가져오기
-- mvnrepository.com 에서 spring-context 라이브러리를 찾는다.
+## 라이브러리 추가
+- mvnrepository.com 에서 spring-context 라이브러를 찾는다.
+- build.gradle에 의존 라이브러리 정보를 추가한다.
 - 'gradle cleanEclipse'를 실행하여 기존 이클립스 설정을 제거한다.
-- 'gradle
+- 'gradle eclipse'를 실행하여 이클립스 관련 설정 파일을 새로 만든다.
+- 이때 추가한 의존 라이브러리가 자동으로 다운로드 될 것이다.
+- 웹 프로젝트를 리프래시 하여 라이브러리 정보를 갱신한다. 
 
 ## ContextLoaderListener 에서 Spring IoC 컨테이너 준비하기
 - 기존의 ApplicationContext 대신에 Spring IoC 컨테이너 객체를 생성한다.
@@ -52,6 +55,17 @@
 
 ## DispatcherServlet에서 Spring IoC 컨테이너를 사용하기
 - 기존의 ApplicationContext 대신에 Spring IoC 컨테이너에 들어 있는 페이지 컨트롤러를 찾아 실행한다.
+
+## ApplicationContext 클래스 제거한다.
+
+## 우리가 작성한 애노테이션 제거한다.
+- @Component 애노테이션 제거
+- @Controller 애노테이션 제거
+- @Repository 애노테이션 제거
+- @Autoworied 애노테이션 제거
+
+## DAO와 페이지 컨트롤러에서 사용한 애노테이션 패키지를 변경한다.
+- 스프링 애노테이션으로 변경한다.
 
 ## web-11 : Spring + MyBatis 연동하기
 - 기존에 직접 만든 SqlSessionFactoryBean 대신에 Mybatis가 제공하는 SqlSessionFactoryBean을 사용한다.
@@ -111,7 +125,7 @@
 
 ## web-14 : JSP 경로를 /WEB-INF/ 폴더 아래로 옮긴다.
 - /WEB-INF 폴더 아래로 JSP를 옮기면 클라이언트에서 직접 요청할 수 없다.
-- 이렇게 하면 JSP를 실행하기 위해 반드시 페이지 컨트롤러를 경유사도록 제한할 수 있다.
+- 이렇게 하면 JSP를 실행하기 위해 반드시 페이지 컨트롤러를 경유하도록 제한할 수 있다.
 
 ## /webapp 에 존재하는 JSP 파일을 /WEB-INF 폴더로 옮긴다.
 - /member 폴더를 /WEB-INF/jsp 폴더로 옮긴다.
