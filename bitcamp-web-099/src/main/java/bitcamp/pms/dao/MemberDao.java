@@ -11,36 +11,18 @@ import java.util.Map;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 
+import bitcamp.pms.annotation.Repository;
 import bitcamp.pms.domain.Member;
 
+@Repository
 public class MemberDao {
     SqlSessionFactory sqlSessionFactory;
 
-/*    static {
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-    String jdbcUrl; //DBMS 따로따로 관리하기 위해 인스턴스 변수로 만듬
-    String username;
-    String password;
-    만들필요가없어짐*/
+    public MemberDao() {}
 
-    
     public MemberDao(SqlSessionFactory sqlSessionFactory) {
         this.sqlSessionFactory = sqlSessionFactory;
-
-/*        String resource = "org/mybatis/example/mybatis-config.xml";
-        InputStream inputStream = Resources.getResourceAsStream(resource);
-        SqlSessionFactory sqlSessionFactory =
-          new SqlSessionFactoryBuilder().build(inputStream);
-          여기서 만들지 않는다.
-        */
     }
-    
-    
     
     public List<Member> selectList(Map<String,Object> params) throws Exception{ 
         try (SqlSession sqlSession = sqlSessionFactory.openSession()){

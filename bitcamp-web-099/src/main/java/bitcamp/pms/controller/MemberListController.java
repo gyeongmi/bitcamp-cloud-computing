@@ -18,14 +18,17 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import bitcamp.pms.annotation.Controller;
 import bitcamp.pms.annotation.RequestMapping;
 import bitcamp.pms.dao.MemberDao;
 import bitcamp.pms.domain.Member;
 
+@Controller("/member/list") //객체 저장할 때 어떤 이름으로 저장할지. value="/member/list"
 public class MemberListController {
     /*implements PageController*/
         MemberDao memberDao;
         
+        public MemberListController() {}
         
         //memberDao를 생성자에서 주입받는다
         public MemberListController(MemberDao memberDao) {

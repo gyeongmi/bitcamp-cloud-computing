@@ -14,13 +14,17 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import bitcamp.pms.annotation.Controller;
 import bitcamp.pms.annotation.RequestMapping;
 import bitcamp.pms.dao.MemberDao;
 import bitcamp.pms.domain.Member;
 
+@Controller("/member/update") //객체 저장할 때 어떤 이름으로 저장할지. value="/member/update"
 public class MemberUpdateController{
 
         MemberDao memberDao;
+        
+        public MemberUpdateController() {}
         
         public MemberUpdateController(MemberDao memberDao){
             this.memberDao = memberDao;
