@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import bitcamp.pms.annotation.RequestMapping;
+import bitcamp.pms.context.ApplicationContext;
 
 @SuppressWarnings("serial")
 @WebServlet("/app/*")
@@ -27,13 +28,17 @@ public class DispatcherServlet extends HttpServlet {
         
         response.setContentType("text/html;charset=UTF-8");
         
-        // ServletContext 보관소에 저장된 페이지 컨트롤러를 찾는다.
-        Object pageController = 
-           getServletContext().getAttribute(pathInfo);
-        //특정 인터페이스 X PageController -> Object
+        // ServletContext 보관소에 저장된  IoC 컨트롤러를 찾는다.
+        ApplicationContext iocContainer =
+                (ApplicationContext)
+                getServletContext().getAttribute("iocContainer");
         
-        // 페이지 컨트롤러를 실행한다.
+ 
         try {
+            //IoC 컨테이너에 저장된 페이지 컨트롤러를 찾는다.
+            Object pageController =
+                    iocContainer.getBean(pathInfo);
+            
             if (pageController == null) 
                 throw new Exception("해당 URL에 대해 서비스를 처리할 수 없습니다.");
             

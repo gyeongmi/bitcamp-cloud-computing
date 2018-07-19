@@ -25,6 +25,7 @@ public class Exam05_10 {
     
     // 테스트: 
     // http://localhost:8888/java106-spring-webmvc/exam05_10.html
+    // http://localhost:8080/java106-spring-webmvc/배경사진.jpg
     @PostMapping(value="m1", produces="text/plain;charset=UTF-8")
     @ResponseBody
     public String m1(

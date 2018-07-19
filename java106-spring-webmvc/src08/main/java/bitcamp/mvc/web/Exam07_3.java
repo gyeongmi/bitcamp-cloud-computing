@@ -24,6 +24,7 @@ public class Exam07_3 {
     // 정규표현식으로 그 규칙을 제어한다.
     @GetMapping(value="m2/{team:t[a-zA-Z]+}-{member:m[a-z0-9]+}-{doc:[0-9]+}", 
             produces="text/plain;charset=UTF-8")
+    //+ 는 한개이상 와야한다는 것.
     @ResponseBody
     public String m2(
             @PathVariable String team,

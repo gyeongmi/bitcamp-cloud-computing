@@ -27,22 +27,13 @@ public class DispatcherServlet extends HttpServlet {
         String pathInfo = request.getPathInfo();
         
         response.setContentType("text/html;charset=UTF-8");
-        
-        /*
-        // ServletContext 보관소에 저장된 페이지 컨트롤러를 찾는다.
-        ApplicationContext iocContainer =
-                (ApplicationContext) getServletContext().getAttribute("iocContainer");*/
-        
+
         // ServletContext 보관소에 저장된 IoC 컨테이너를 꺼낸다.
         ApplicationContext iocContainer = 
                 (ApplicationContext) getServletContext()
                                      .getAttribute("iocContainer");
         
         try {
-            /*
-            // Ioc 컨테이너에 저장된 페이지 컨트롤러를 찾는다
-            Object pageController =
-                    iocContainer.getBean(pathInfo);*/
             
             // IoC 컨테이너에 저장된 페이지 컨트롤러를 찾는다.
             Object pageController = 

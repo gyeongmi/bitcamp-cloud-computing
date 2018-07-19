@@ -23,6 +23,7 @@ public class Exam05_8 {
     @ResponseBody
     public String m1(HttpServletResponse response) {
         try {
+            /*Cookie c1 = new Cookie("name", "홍길동");*/
             Cookie c1 = new Cookie("name", 
                 URLEncoder.encode("홍길동", "UTF-8"));
             
@@ -49,6 +50,21 @@ public class Exam05_8 {
             System.out.println(name.getValue());
             return String.format("m2(): name=%s, age=%d", 
                 URLDecoder.decode(name.getValue(), "UTF-8"), age);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    //최신 톰캣서버가 다 처리해주긴 했으나 예전 서버일 경우 URLEncoder를 사용하는 게 좋다...
+    @GetMapping(value="m3", produces="text/plain;charset=UTF-8")
+    @ResponseBody
+    public String m2(
+            @CookieValue(value="name", defaultValue="") String name, 
+            
+            @CookieValue(value="age", defaultValue="0") int age) {
+        try {    
+            System.out.println(name);
+            return String.format("m2(): name=%s, age=%d",name,age); 
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

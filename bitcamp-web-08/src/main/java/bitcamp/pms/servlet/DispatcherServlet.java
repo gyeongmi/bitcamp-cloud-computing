@@ -22,9 +22,9 @@ public class DispatcherServlet extends HttpServlet {
         
         // 클라이언트가 요청한 서비스 URL을 알아낸다.
         // 즉 /app/* 에서 *에  해당하는 값을 추출한다.
-        // 예) /app/member/list => /member/list를 추출한다.
+        // 예) /app/member/list => /member/list를 추출한다. request.getPathInfo = /member/* 
         String pathInfo = request.getPathInfo();
-        
+        System.out.println(pathInfo);
         response.setContentType("text/html;charset=UTF-8");
         
         // ServletContext 보관소에 저장된 페이지 컨트롤러를 찾는다.
@@ -45,7 +45,7 @@ public class DispatcherServlet extends HttpServlet {
             //오브젝트에 존재하는 모든 자바클래스는 자기자신을 리턴하는 tostring
             //고유식별자 hashcode()
             //비교하기위해서 equals() 등...
-            //모든 자바 객체는 자기가 어떤 클래스의 객ㄱ체인지 getClass() -> 클래스정보를 다루는 도구 Class
+            //모든 자바 객체는 자기가 어떤 클래스의 객체인지 getClass() -> 클래스정보를 다루는 도구 Class
             // 쓰레드 클래스, 시스템 클래스, 파일 클래스, 클래스를 다루는 클래스(Class)
             
             if(requestHandler==null)

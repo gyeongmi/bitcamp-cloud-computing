@@ -41,7 +41,7 @@ public class Exam05_9 {
             // 통으로 값이 넘어올 때는 개별 변수로 받을 수 없다. 
             // 통으로 받아야 한다. 변수명은 상관없다.
             // 단 변수명 앞에 @RequestBody 애노테이션을 붙여야 한다.
-            @RequestBody String content) {
+            @RequestBody String content) { //변수 하나에 다 받겠다,.
         return String.format("m2(): %s", content);
     }
 

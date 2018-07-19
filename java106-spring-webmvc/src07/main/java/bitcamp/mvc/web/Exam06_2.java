@@ -47,7 +47,7 @@ public class Exam06_2 {
         ResponseEntity<String> entity = new ResponseEntity<>(
                     "Exam06_2.m3() ==> 012ABCabc#!@가각간",
                     headers,
-                    HttpStatus.OK);
+                    HttpStatus.OK); //응답에 대한 ststus 코드 : 400, 200, 500.. 등
         return entity;
     }
 }

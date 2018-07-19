@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import bitcamp.mvc.dao.BoardDao;
@@ -12,7 +13,7 @@ import bitcamp.mvc.vo.Board;
 
 // JSON 데이터를 출력하는 페이지 컨트롤러일 경우 
 // 다음의 애노테이션을 사용하여 표시하라!
-@RestController 
+@RestController //@Controller + @ResponseBody
 @RequestMapping("/exam10_3") 
 public class Exam10_3 {
     

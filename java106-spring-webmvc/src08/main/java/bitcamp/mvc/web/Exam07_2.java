@@ -72,6 +72,7 @@ public class Exam07_2 {
     public String m3( 
             @MatrixVariable(name="name", pathVar="team") String name1,
             @MatrixVariable(name="name", pathVar="task") String name2) {
+        // team, task라는 데이터에서 name을 추출하라는 것.
         
         // 예) 클라이언트에서 URL에 다음과 같은 형식으로 데이터를 보낼 때,
         //        .../exam07_2/m3/name=teamA;qty=3/name=task100;state=1

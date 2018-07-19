@@ -19,6 +19,8 @@ public class Exam06_3 {
     public String m1() {
         // 리턴 값으로 JSP의 URL을 알려주면 된다.
         return "/exam06_3.jsp";
+        // '/' = 현재 웹 어플리케이션(프로젝트 이름..)
+        // webapp 폴더 가르킴, 여기에 존재하는 것들이 배포됨
     }
     
     @GetMapping(value="m2")  
