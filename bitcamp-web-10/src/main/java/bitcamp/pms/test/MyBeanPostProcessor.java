@@ -10,6 +10,5 @@ public class MyBeanPostProcessor implements BeanPostProcessor{
         return BeanPostProcessor.super.postProcessAfterInitialization(bean, beanName);
     }
     //아이템 만듬
-    
 
 }

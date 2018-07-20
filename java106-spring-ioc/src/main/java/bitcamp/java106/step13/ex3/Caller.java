@@ -14,6 +14,7 @@ public class Caller {
         int result = x.m1(10, 2);
         System.out.printf("result: %d\n", result);
         
+        //10을 0으로 나눌 수 없다. 결과 리턴하기 전에 예외 발생.
         result = x.m1(10, 0);
         System.out.printf("result: %d\n", result);
         

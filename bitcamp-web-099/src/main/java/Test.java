@@ -1,16 +1,13 @@
 import java.io.File;
-import java.io.FileFilter;
 import java.lang.reflect.Constructor;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import bitcamp.pms.annotation.Component;
 import bitcamp.pms.annotation.Controller;
 import bitcamp.pms.annotation.Repository;
 
-public class Test3 {
-    
+public class Test {
     static ArrayList<Object> objPool = new ArrayList<>();
 
     public static void main(String[] args) throws Exception{
@@ -209,6 +206,4 @@ public class Test3 {
             return objName;
         }
     }
-
-    
 }

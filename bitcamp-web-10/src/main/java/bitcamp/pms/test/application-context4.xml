@@ -12,10 +12,10 @@
         <!-- @Autowired를 처리하려면 객체를 생성한 후 그 작업을 수행할 객체를
                         컨테이너에 등록해야 한다. 등록해 두면 컨테이너가 사용할 것이다. -->
         
-        <!-- <context:annotation-config/>
-            context:component-scan을 사용할떄 context:annotation-config 활성화하기 떄문에 쓰지 않아도 된다-->
+        <!-- <context:annotation-config/> --> <!-- 5개의 bean이  자동으로 만들어지고 출력됨 -->
+            <!-- context:component-scan을 사용할떄 context:annotation-config 활성화하기 떄문에 쓰지 않아도 된다-->
         <context:component-scan base-package="bitcamp.pms.test"/>
-        <!-- 객체 자동화 -->
+        <!-- 객체 자동화  @Component 붙여진 것도 객체로 만들어짐 -->
         
         <!--https://docs.spring.io/spring-framework/docs/5.0.7.RELEASE/javadoc-api/org/springframework/beans/factory/annotation/AutowiredAnnotationBeanPostProcessor.html  -->
          <!-- <bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"></bean>

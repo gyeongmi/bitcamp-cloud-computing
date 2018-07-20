@@ -148,3 +148,53 @@
 ## 각 페이지 컨트롤러에 대해 요청 핸들러의 애노테이션을 정리한다.
 ## CRUD 관련 메서드는 한 개의 컨트롤러 클래스에 묶어 관리한다.
 
+## web-16 : 서비스 컴포넌트 도입
+- 페이지 컨트롤러에서 비지니스 로직을 분리하여 별도의 클래스로 정의한다.
+- 이 클래스를 서비스 객체라 부른다.
+- 서비스 객체는 비지니스 로직과 트랜잭션 처리를 담당한다.
+
+## 서비스 객체 생성
+- MemberService 클래스 작성
+
+## 페이지 컨트롤러는 DAO 대신 Service 객체를 사용한다.
+- 페이지 컨트롤러 변경
+
+## 페이지 이동 처리
+- /WEB-INF-jsp/member/list.jsp 변경
+- MemberMapper.xml 변경
+- MemberDao 변경
+- MemberController 변경
+
+## web-16 : 서비스 컴포넌트에 트랜잭션 적용
+- 트랜잭션 관리자를 설정하여 서비스 메서드에 트랜잭션을 적용한다
+
+## @Transactional 애노테이션으로 트랜잭션 관리하기
+- 서비스 객체의 각 메서드에 대해 애노테이션을 붙여 트랜잭션 정책을 지정할 수 있따
+
+## Spring Ioc 설정 파일에 트랜잭션 애노테이션을 처리할 객체를 등록한다.
+```
+<tx:annotation-driven transaction-manager="txManager"/>
+```
+
+## 서비스 객체의 메서드에 @Transactional 애노테이션을 붙인다
+
+## XML로 트랝개션 관리하기
+## AOP 관련 의존 라이브러리 추가
+- mvnrepository 에서 'aspectj weaver' 라이브러리 검색
+
+## 스프링 IoC 컨테이너 설정 파일에 트랜잭션 추가
+<tx:advice id="txAdvice" transaction-manager="txManager">
+	        <tx:attributes>
+	            <tx:method name="get*" read-only="true"/> 
+	            <tx:method name="list*" read-only="true"/>
+	            <tx:method name="*"/>
+	        </tx:attributes>
+        </tx:advice>
+
+        <aop:config> 
+            <aop:pointcut id="ServiceOperation" 
+                expression="execution(* bitcamp.pms.service.*.*(..))"/>
+            <aop:advisor advice-ref="txAdvice" 
+                pointcut-ref="ServiceOperation"/> 
+        </aop:config>
+

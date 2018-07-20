@@ -26,10 +26,10 @@
                 expression="execution(* bitcamp.java106.step13.ex3.X.*(..))"/>
             
             <!-- 해당 포인트컷 앞뒤로 필터를 꼽는다. -->
-            <aop:before pointcut-ref="pointcut1" method="doBefore"/>
-            <aop:after pointcut-ref="pointcut1" method="doAfter"/>
-            <aop:after-returning pointcut-ref="pointcut1" method="doAfterReturning"/>
-            <aop:after-throwing pointcut-ref="pointcut1" method="doAfterThrowing"/>
+            <aop:before pointcut-ref="pointcut1" method="doBefore"/> <!-- x라는 메소드 호출하기 전에  myAdvice의 메소드 호출-->
+            <aop:after pointcut-ref="pointcut1" method="doAfter"/> <!-- 호출한 후에는 myAdvice의 메소드 호출 -->
+            <aop:after-returning pointcut-ref="pointcut1" method="doAfterReturning"/> <!-- 호출하고 리턴한 후 myAdvice의 메소드 호출-->
+            <aop:after-throwing pointcut-ref="pointcut1" method="doAfterThrowing"/> <!-- 에러가 발생한 후에 myAdvice의 메소드 호출-->
             <!-- <aop:around pointcut-ref="pointcut1" method="doAround"/> -->
         </aop:aspect>
     </aop:config>

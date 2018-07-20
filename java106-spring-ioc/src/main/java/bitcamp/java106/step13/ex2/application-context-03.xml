@@ -24,6 +24,7 @@
             <!-- 한 포인트 컷에 여러 개의 필터 꼽기(advice 지정하기)  -->
             <aop:before pointcut="execution(* bitcamp.java106.step13.ex2.*.m2(..))" 
                         method="advice1"/>
+                        <!-- m2가 실행하기 전에 advice1, advice2 먼저 실행하라 -->
             <aop:before pointcut="execution(* bitcamp.java106.step13.ex2.*.m2(..))" 
                         method="advice2"/>            
             

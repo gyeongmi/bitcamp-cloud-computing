@@ -11,9 +11,18 @@
         <!--https://docs.spring.io/spring-framework/docs/5.0.7.RELEASE/javadoc-api/org/springframework/beans/factory/annotation/AutowiredAnnotationBeanPostProcessor.html  -->
 <!--         <bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"></bean> -->
 
-
         <!-- 아이템 장착 -->
+        
+        <!-- @Autowired 처리할 객체!! BeanPostProcessor 객체를 만들어야 주입해 줌 -->
         <bean class="bitcamp.pms.test.MyBeanPostProcessor"/>
-        <bean id="memberDao" class="bitcamp.pms.test.MemberDao"></bean>
-        <bean id="memberListController" class="bitcamp.pms.test.MemberListController"/>
+        
+        <bean id="memberDao" 
+            class="bitcamp.pms.test.MemberDao"/>
+        <bean id="memberListController" 
+            class="bitcamp.pms.test.MemberListController"/>
+        <!--
+                  객제 주입 자동화(@Autowired)를 쓰지 않은 <property/>를 이용한 객체 주입
+        <bean id="memberListController" class="bitcamp.pms.test.MemberListController">
+            <property name="memberDao" ref="memberDao"/>
+        </bean> -->
 </beans>

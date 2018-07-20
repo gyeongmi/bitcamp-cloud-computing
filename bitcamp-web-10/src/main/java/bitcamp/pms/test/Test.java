@@ -10,6 +10,7 @@ public class Test {
         System.out.println(iocContainer.getBeanDefinitionCount());
         System.out.println("----------------------------");
         String[] names = iocContainer.getBeanDefinitionNames();
+        
         for(String name : names) {
             System.out.println(iocContainer.getBean(name).getClass().getName());
         }
