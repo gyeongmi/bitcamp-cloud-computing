@@ -1,0 +1,30 @@
+plugins {
+    // Apply the java plugin to add support for Java
+    id 'java'
+
+    // Apply the application plugin to add support for building an application
+    id 'eclipse-wtp' //웹 관련 배포
+    id 'war' //특히 war 이라는 것과 같이 있어야 한다
+}
+
+
+compileJava {
+    // 컴파일 할 때 소스 파일의 인코딩 옵션을 추가할 것이다.
+    // 예) javac -encoding UTF-8 Hello.java
+    options.encoding = 'UTF-8'
+}
+
+dependencies {
+    // This dependency is found on compile classpath of this component and consumers.
+    compile 'com.google.guava:guava:23.0'
+
+    // Use JUnit test framework
+    testCompile 'junit:junit:4.12'
+}
+
+// In this section you declare where to find the dependencies of your project
+repositories {
+    // Use jcenter for resolving your dependencies.
+    // You can declare any Maven/Ivy/file repository here.
+    jcenter()
+}
