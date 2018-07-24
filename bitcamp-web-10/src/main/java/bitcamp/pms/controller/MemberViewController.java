@@ -24,13 +24,14 @@ public class MemberViewController {
     @Autowired
     public void setMemberDao(MemberDao memberDao) {
         this.memberDao = memberDao;
+
     }
     
     @RequestMapping
     public String view(
             HttpServletRequest request, 
             HttpServletResponse response) throws Exception {
-
+        
         String id = request.getParameter("id");
         response.setContentType("text/html;charset=UTF-8");
         

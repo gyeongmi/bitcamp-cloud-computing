@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>자바스크립트</title>
 <body>
-<h1>클로저(closure) - 바깥 함수의 로컬 변수 복제하기</h1>
+<h1>클로저(closure) - 바깥 함수의 로컬 변수 복제</h1>
 
 <script>
 "use strict"
@@ -16,7 +16,7 @@ function f1(p1){
         sum += i;
     
     var x = function(){
-        console.log("합계= ",sum);
+        console.log("합계= ", sum);
         // sum 변수처럼 내부 함수에서 바깥 함수의 로컬 변수를 참조한다면
         // 내부 함수들은 closure만 사용하는 별도의 메모리에
         // 참조하는 바깥 함수의 변수를 복제해 둔다.
@@ -28,10 +28,8 @@ function f1(p1){
 
 var a = f1(10); // f1()은 내부에서 정의한 함수를 리턴한다.
 a();
+
 </script>
-
-
-
 
 </body>
 </html>

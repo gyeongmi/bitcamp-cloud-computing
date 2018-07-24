@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>자바스크립트</title>
+<body>
+<h1>함수 파라미터 - default parameter</h1>
+
+<script>
+"use strict"
+
+//default 파라미터는 아규먼트가 넘어오지 않을 때 기본 값을 사용하는 파라미터이다.
+//c는 아규먼트가 아니라 defualt 값
+function f1(a, b, c = 100, d){
+    console.log("=> ", a, b, c, d);
+    
+    for(var value of arguments)
+        console.log(value); //아규먼트로 넘어온 값만 출력. default 값은 출력하지 않는다.
+    
+    console.log("=================");
+}
+
+f1();
+f1(100);
+f1(100, 200);
+f1(100, 200, 300);
+f1(100, 200, 300, 400);
+
+</script>
+
+</body>
+</html>

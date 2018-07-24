@@ -44,13 +44,13 @@
                      파라미터(타입 String) 값을 받아온다-->
                      
                      
-                     
-                     <!-- 공장에서 SqlSessionFactory 만들기
-                     =>실행원리!
-                     - class 속성에 지정된 클래스가 FactoryBean 구현체라면,
-                     - 그 객체를 만들어 저장하는 것이 아니라
-                     - 그 객체의 getObject()를 호출하여 그 리턴값을 저장한다.
-                                                 보통은 객체(class="")를 만들어 이름(id="")으로 저장하는 건데
-                     -->
-<bean id="sqlSessionFactory" class="bitcamp.pms.factory.SqlSessionFactoryBean"/>
+        <!-- 공장에서 SqlSessionFactory 만들기
+        =>실행원리!
+        - class 속성에 지정된 클래스가 FactoryBean 구현체라면,
+        - 그 객체를 만들어 저장하는 것이 아니라(보통은 객체(class="")를 만들어 이름(id="")으로 저장함..)
+        - 그 객체의 getObject()를 호출하여 그 리턴값을 저장한다.
+        -->
+        <bean id="sqlSessionFactory" class="bitcamp.pms.factory.SqlSessionFactoryBean"/>
+
+
 </beans>

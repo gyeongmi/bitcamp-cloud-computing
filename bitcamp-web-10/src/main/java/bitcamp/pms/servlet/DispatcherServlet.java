@@ -36,15 +36,11 @@ public class DispatcherServlet extends HttpServlet {
             Object pageController = 
                     iocContainer.getBean(pathInfo);
 
-
             if (pageController == null) 
                 throw new Exception("해당 URL에 대해 서비스를 처리할 수 없습니다.");
  
             Method requestHandler = getRequestHandler(pageController.getClass());
 
-            
-            
-            
             if (requestHandler == null) 
                 throw new Exception("요청 핸들러를 찾지 못했습니다.");
             
@@ -71,16 +67,12 @@ public class DispatcherServlet extends HttpServlet {
 
         Method[] methods = clazz.getMethods(); 
         
-        
         for (Method m : methods) { 
             RequestMapping anno = m.getAnnotation(RequestMapping.class);
-          
-            
 
             if (anno != null)
                 return m;
         }
-        
         return null;
     }
 

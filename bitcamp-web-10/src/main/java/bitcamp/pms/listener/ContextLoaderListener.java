@@ -10,7 +10,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 @WebListener
 public class ContextLoaderListener 
     implements ServletContextListener {
-    
+
     @Override
     public void contextInitialized(ServletContextEvent sce) {
         System.out.println("ContextLoaderListener 실행!");
@@ -29,7 +29,10 @@ public class ContextLoaderListener
             
             
             //스프링 ioc에는 addbean이 없다
-            
+            /*
+            iocContainer.addBean("sqlSessionFactory",sqlSessionFactory);
+            iocContainer.refresh();
+            */            
             ServletContext sc = sce.getServletContext();
             sc.setAttribute("iocContainer", iocContainer);
             

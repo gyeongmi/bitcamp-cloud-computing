@@ -3,6 +3,7 @@ package bitcamp.pms.controller;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
@@ -12,7 +13,6 @@ import bitcamp.pms.domain.Member;
 
 @Controller("/member/add") // 객체를 저장할 때 어떤 이름으로 저장할지. value="/member/add"
 public class MemberAddController {
-    
     MemberDao memberDao;
     
     public MemberAddController() {}

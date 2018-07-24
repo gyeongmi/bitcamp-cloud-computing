@@ -21,26 +21,29 @@ function f1(op) {
     case "/":
         return function devide(a, b){console.log(a / b)}
     default:
-        return function error() {console.log("지원하지 않는 연산자 입니다.")}
+        return function error(){console.log("지원하지 않는 연산자 입니다.")}
     }
 
 }
+
 var a = f1("*"); //f1() 은 내부에서 생성한 함수의 주소를 리턴한다.
                  //f1() 의 내부에서 만든 함수를 "클로저(closure)" 부른다.
+                 
 a(5, 7); //변수에 함수 주소가 저장되어 있다면, 언제든 함수처럼 호출할 수 있다.
+
 </script>
+
 <script>
-var x = f1("+"); //메서드가 호출될 때마다 해당 함수를 만들어서 주소를 리턴한다.
+
+var x = f1("+"); //메서드가 호출될 때 마다 해당 함수를 만들어서 주소를 리턴한다.
 var y = f1("+");
 
-if(x == y)
-    console.log("x==y");
+if (x == y)
+    console.log("x == y");
 else
-    consele.log("x!=y"); // 따라서 x와 y가 가르키는 함수는 다르다.
+    console.log("x != y"); //따라서 x와 y가 가리키는 함수는 다르다.
+    
 </script>
-
-
-
 
 </body>
 </html>
