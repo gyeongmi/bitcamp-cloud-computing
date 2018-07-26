@@ -5,37 +5,17 @@
                       http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
   version="4.0"
   metadata-complete="false">
+    <!-- matadata-complete 값이 true이면 web.xml 파일에 등록된 정보만 유효하다.
+         @WebServlet, @WebFilter 처럼 애노테이션으로도 지정할 수 있으려면,
+         false 값으로 설정해야 한다. -->
     
     <description>웹 애플리케이션에 대한 설명을 적는 태그이다.</description>
     
     <display-name>spring-webmvc</display-name>
 
-    <listener>
-        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-    </listener>
-
-    <context-param>
-        <param-name>contextConfigLocation</param-name>
-        <!--  
-        <param-value>/WEB-INF/spring/app-context.xml</param-value>
-        -->
-        <param-value>classpath:bitcamp/mvc/config/app-context.xml</param-value>
-    </context-param>
-
-
     <servlet>
         <servlet-name>mvc</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-        <!-- 기본 경로가 아니면 다음과 같이 설정 파일의 위치를 지정해야 한다. -->
-        <init-param>
-	        <param-name>contextConfigLocation</param-name>
-	        <!--  
-	        <param-value>/WEB-INF/spring/mvc-servlet.xml</param-value>
-	        -->
-	        
-	        <!-- 만약 CLASSPATH에 설정파일이 있다면 경로 앞에 classpath: 접두어를 붙인다. -->
-	        <param-value>classpath:bitcamp/mvc/config/mvc-servlet.xml</param-value>
-        </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>

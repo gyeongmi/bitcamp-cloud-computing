@@ -47,7 +47,7 @@
 		
 		
 		<!-- .properties 파일을 읽어서 그 데이터를 보관할 객체를 등록한다. -->
-		<!-- 원래 같으면 properties 읽어들일 bean 태그를 작성해야 하는데 -->
+		<!-- 원래 같으면 properties 읽어들일 bean 태그를 작성해야 하지만.. -->
 		<context:property-placeholder location="bitcamp/pms/config/jdbc.properties"/>
 
 </beans>
