@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset='UTF-8'>
+<title>멤버 보기</title>
+</head>
+<body>
+<h1>멤버 보기</h1>
+
+<form>
+<table border='1'>
+<tr><th>아이디</th><td>
+    <input type='text' id='eId' readonly></td></tr>
+<tr><th>이메일</th>
+    <td><input type='email' id='eEmail'></td></tr> <!-- 웹브라우저에서 서버 변수 이름 /웹브라우저 요청을 안하기 때문에 필요가 없다.. id가 있으면 편하다 -->
+<tr><th>암호</th>
+    <td><input type='password' id='ePassword'></td></tr>
+</table>
+<p>
+<button id="eListBtn" type="button">목록</button>
+<button id="eUpdateBtn" type="button">변경</button>
+<button id="eDeleteBtn" type="button">삭제</button>
+</p>
+</form>
+
+<script src="../js/common.js"></script>
+<script>
+//step05 - ex03-3 복사해옴
+"use strict"
+
+var data = null;
+var paramMap = parseQuery(location.href);
+//var paramMap = parseQuery(location.href);
+/*
+var paramMap = {}; //빈객체 //글로벌 변수
+
+var qs = location.href.split('?')[1]; //query string
+if(qs.length > 1){
+    var params = qs[1].split('&');
+    for(var param of params){
+        var kv = param.split('=')
+        params[kv[0]] = kv[1];
+    }
+} 
+console.log(paramMap);
+*/
+
+//id
+if (paramMap.id == undefined) {
+/* if (values.length < 2) { */
+    alert('아이디를 지정하지 않았습니다.');
+    location.href = "list.html";
+    
+} else {
+    //var id = values[1].split('=')[1];
+    var xhr = new XMLHttpRequest();
+    
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState < 4) return;
+        if (xhr.status !== 200) {
+            alert("서버에서 오류 발생!");
+            return;
+        }
+        data = JSON.parse(xhr.responseText);
+        if (data.member == null) {
+            alert('아이디가 무효합니다.');
+            location.href = "list.html";
+            return;
+        }
+        eId.value = data.member.id;
+        eEmail.value = data.member.email;
+    };
+    
+    xhr.open('GET', 
+            `../../json/member/view/${paramMap.id}`, 
+            true);
+    xhr.send();
+}
+
+eListBtn.onclick = function(){
+    location.href = `list.html?page=${paramMap.page}&size=${paramMap.size}`;
+}
+    
+</script>
+
+</body>
+</html>

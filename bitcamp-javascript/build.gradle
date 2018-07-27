@@ -17,8 +17,13 @@ compileJava {
 dependencies {
     // Servlet API 라이브러리 https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api
     // provided가 아닌
-    // providedCompile: 빌드할 때 사용. 배포에는 제외.
+    // providedCompile: 빌드할 때 사용. 배포에는 제외. 톰캣서버에 이 라이브러리가 있기 때문에 배보할 필요가 없다.
     providedCompile group: 'javax.servlet', name: 'javax.servlet-api', version: '4.0.1'
+    
+    // JSTL 라이브러리 https://mvnrepository.com/artifact/javax.servlet/jstl
+    //톰캣서버에 없다.
+    //빌드할 때, 배포할 때 필요
+    compile group: 'javax.servlet', name: 'jstl', version: '1.2'
 
     //compile: 빌드할 때 사용. 배포에 포함.
     compile 'com.google.guava:guava:23.0'
