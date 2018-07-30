@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class Exam01_1 {
     
     @RequestMapping  // 위에서 지정한 URL 요청을 처리할 메서드를 지정한다.
-    @ResponseBody // 이 메서드의 리턴 값은 클라이언트에게 리턴할 콘텐트임을 지정한다. 
+    @ResponseBody // 이 메서드의 리턴 값은 클라이언트에게 리턴할 콘텐트임을 지정한다.  //응답 본문 데이터
     public String m1() {
         return "Exam01_1.m1()";
     }

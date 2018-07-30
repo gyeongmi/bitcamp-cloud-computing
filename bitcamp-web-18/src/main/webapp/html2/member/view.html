@@ -5,13 +5,13 @@
 <title>멤버 보기</title>
 </head>
 <body>
-<h1>멤버 보기</h1>
+<h1>멤버 보기3</h1>
 <form>
 <table border='1'>
 <tr><th>아이디</th><td>
     <input type='text' id='eId' readonly></td></tr>
 <tr><th>이메일</th>
-    <td><input type='email' id='eEmail'></td></tr> <!-- 웹브라우저에서 서버 변수 이름 /웹브라우저 요청을 안하기 때문에 필요가 없다.. id가 있으면 편하다 -->
+    <td><input type='email' id='eEmail'></td></tr>
 <tr><th>암호</th>
     <td><input type='password' id='ePassword'></td></tr>
 </table>
@@ -23,51 +23,26 @@
 </p>
 </form>
 
-<script src="../js/common.js"></script>
+<script src="../js/bit.js"></script>
 <script>
-//step05 - ex03-3 복사해옴
 "use strict"
 
 var data = null;
-var {id, page, size} = parseQuery(location.href);
-//var paramMap = parseQuery(location.href); -> {id, page, size} 이렇게 하면
-//`list.html?page=${paramMap.page}&size=${paramMap.size}` paramMap. 하지 않아도 된다
-/*
-var paramMap = {}; //빈객체 //글로벌 변수
+var {id, page, size} = $.parseQuery(location.href);
 
-var qs = location.href.split('?')[1]; //query string
-if(qs.length > 1){
-    var params = qs[1].split('&');
-    for(var param of params){
-        var kv = param.split('=')
-        params[kv[0]] = kv[1];
-    }
-} 
-console.log(paramMap);
-*/
-
-//id
-if (id == undefined) {
-/*  if (values.length < 2) { */
-/*  alert('아이디를 지정하지 않았습니다.');
-    location.href = "list.html";
-*/
-    //입력 폼
+if (id == undefined) { // 입력 폼 
     var el = document.querySelectorAll('.viewform');
     for (var e of el) {
         e.style.display = 'none';
-    } //유지보수가 좋아짐
-/*  eUpdateBtn.style.display = 'none';
-    eDeleteBtn.style.display = 'none'; */
+    }
     eId.removeAttribute("readonly");
     
-} else { //상세보기 폼
+} else { // 상세 보기 폼
     var el = document.querySelectorAll('.newform');
     for (var e of el) {
         e.style.display = 'none';
     }
     
-    //var id = values[1].split('=')[1];
     var xhr = new XMLHttpRequest();
     
     xhr.onreadystatechange = function() {
@@ -100,7 +75,6 @@ eListBtn.onclick = function() {
     }
 };
 
-
 eUpdateBtn.onclick = function() {
     var xhr = new XMLHttpRequest();
     
@@ -111,8 +85,6 @@ eUpdateBtn.onclick = function() {
             return;
         }
         let data = JSON.parse(xhr.responseText);
-        //바깥의 글로벌 변수를 쓰지 않고 로컬 변수를 쓸 것이다.
-        
         if (data.status == 'success') {
             location.href = `list.html?page=${page}&size=${size}`;
         } else {
@@ -120,19 +92,12 @@ eUpdateBtn.onclick = function() {
             console.log(data.error);
         }
     };
-     
-     xhr.open('POST', '../../json/member/update', true);
-     /* 
-     xhr.open('POST', 
-             // `../../json/member/update`
-             , 'update.jsp',
-             true);
-     */
-     xhr.setRequestHeader('Content-Type', 
-     'application/x-www-form-urlencoded');
-     xhr.send(`id=${eId.value}&email=${eEmail.value}&password=${ePassword.value}`);
+    
+    xhr.open('POST', '../../json/member/update', true);
+    xhr.setRequestHeader('Content-Type', 
+            'application/x-www-form-urlencoded');
+    xhr.send(`id=${eId.value}&email=${eEmail.value}&password=${ePassword.value}`);
 };
-
 
 eDeleteBtn.onclick = function() {
     var xhr = new XMLHttpRequest();
@@ -158,17 +123,15 @@ eDeleteBtn.onclick = function() {
     xhr.send();
 }
 
-
 eAddBtn.onclick = function() {
     var xhr = new XMLHttpRequest();
     
     xhr.onreadystatechange = function() {
         if (xhr.readyState < 4) return;
-        if (xhr.status !== 200) { //add는 오류가 나면 아예 500 오류가 난다
+        if (xhr.status !== 200) {
             alert('서버에서 오류 발생!');
             return;
         }
-        //let data = JSON.parse(xhr.responseText); //굳이 바꿀 필요 없다
         location.href = 'list.html';
     };
     

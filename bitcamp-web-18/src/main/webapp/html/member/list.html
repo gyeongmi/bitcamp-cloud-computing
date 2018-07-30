@@ -6,7 +6,7 @@
 </head>
 <body>
 <h1>멤버 목록5</h1>
-<p><a href='form'>새회원</a></p>
+<p><a href='view.html'>새회원</a></p>
 
 <table id="eListTable" border='1'>
 <thead>
@@ -21,39 +21,26 @@
   <button id="eNextBtn">다음</button>
 </div>
 
-<script> // </body> 전에 작성..
+
+<script src="../js/common.js"></script>
+<script>
 "use strict"
 
-//var paramMap = {}; //빈객체 //글로벌 변수
-/* var qs = location.href.split('?')[1]; //query string
-if(qs.length > 1){
-    var params = qs[1].split('&');
-    for(var param of params){
-        var kv = param.split('=')
-        params[kv[0]] = kv[1];
-    }
-    
-} 
-console.log(paramMap);
-*/
 var {page, size} = parseQuery(location.href);
 
 let tbody = document.querySelector('#eListTable > tbody'); 
 let data = null;
 
-//loadList(1, 3);
 if (page != undefined && size != undefined) {
     loadList(page, size);
 } else {
     loadList(1, 3);
 }
 ePrevBtn.onclick = function() {
-    //console.log("이전 페이지")
     loadList(data.page - 1, data.size);
 };
 
 eNextBtn.onclick = function() {
-    //console.log("다음 페이지")
     loadList(data.page + 1, data.size);
 };
 
@@ -66,21 +53,19 @@ function loadList(page, size) {
             alert("서버에서 오류 발생!");
             return;
         }
-        data = JSON.parse(xhr.responseText); //글로벌 변수에 저장
-        tbody.innerHTML = ''; // = <tbody></tbody>
+        data = JSON.parse(xhr.responseText);
+        tbody.innerHTML = '';
         for (var item of data.list) {
-		    //console.log(item)
             var tr = document.createElement("tr");
-	        tr.innerHTML = 
+            tr.innerHTML = 
                 `<td><a href='#' data-id='${item.id}' onclick='clickViewLink(event)'>${item.id}</a></td>
                 <td>${item.email}</td>`;
-		    //`` (back-tick), 싱글쿼테이션('')
             tbody.appendChild(tr);
         }
         
         ePageNo.innerHTML = data.page;
         if (data.page <= 1)
-            ePrevBtn.setAttribute('disabled', ''); // selected, cheked, diesabled 속성이 존재하면 속성 이름 값은 필요 없다..
+            ePrevBtn.setAttribute('disabled', '');
         else 
             ePrevBtn.removeAttribute('disabled');
         
@@ -89,9 +74,7 @@ function loadList(page, size) {
         else
             eNextBtn.removeAttribute('disabled');
     };
-
-	//현재 들어있는 방(member)에서 ../ -> html
-	//html 에서 ../ -> 루트
+    
     xhr.open('GET', 
             `../../json/member/list?page=${page}&size=${size}`, 
             true);
@@ -100,11 +83,9 @@ function loadList(page, size) {
 
 function clickViewLink(event) {
     event.preventDefault();
-    var id = event.currentTarget.getAttribute('data-id'); //이벤트가 발생된 태그를 가리킴 this
-    location.href = `view.html?id=${id}&page=${data.page}&size=${data.size}`; //여러개 쓸 때 백틱  쓴다..
-    //console.log(id);
+    var id = event.currentTarget.getAttribute('data-id');
+    location.href = `view.html?id=${id}&page=${data.page}&size=${data.size}`;
 }
-
 </script>
 
 </body>

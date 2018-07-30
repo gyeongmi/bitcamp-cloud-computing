@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset='UTF-8'>
+<title>멤버 목록</title>
+</head>
+<body>
+<h1>멤버 목록5</h1>
+<p><a href='view.html'>새회원</a></p>
+
+<table id="eListTable" border='1'>
+<thead>
+  <tr><th>아이디</th><th>이메일</th></tr>
+</thead>
+<tbody></tbody>
+</table>
+
+<div>
+  <button id="ePrevBtn">이전</button>
+  <span id="ePageNo"></span> 
+  <button id="eNextBtn">다음</button>
+</div>
+
+
+<script src="../js/bit.js"></script>
+<script>
+"use strict"
+
+var {page, size} = $.parseQuery(location.href);
+
+let tbody = $('#eListTable > tbody'); 
+let data = null;
+
+if (page != undefined && size != undefined) {
+    loadList(page, size);
+} else {
+    loadList(1, 3);
+}
+ePrevBtn.onclick = function() {
+    loadList(data.page - 1, data.size);
+};
+
+eNextBtn.onclick = function() {
+    loadList(data.page + 1, data.size);
+};
+
+function loadList(page, size) {
+    $.ajax(`../../json/member/list?page=${page}&size=${size}`, {
+        dataType: 'json',
+        success: function(result) {
+            data = result; //서버에서 받은 data를 result에 저장하겠다.
+            //tbody.innerHTML = ''; //초기화 시킨 것
+            tbody.html('');
+            for (var item of data.list) {
+                
+                //var tr = $("<tr>");
+                
+                $("<tr>")
+                  .html(`<td><a href='#' data-id='${item.id}' 
+                    onclick='clickViewLink(event)'>${item.id}</a></td>
+                    <td>${item.email}</td>`)
+                  .appendTo(tbody);
+                
+                //tbody.appendChild(tr);
+                //tbody.append(tr);
+                //tr.appendTo(tbody);    
+            }
+            
+            //ePageNo.innerHTML = data.page; //윈도우 거 바로 사용한거라 태그를 가리킴.. 오리지날 태그 객체라 html이 당연히 없다.
+            $(ePageNo).html(data.page);
+            //제이쿼리 함수에 던져줌. 이 오리지날 태그에 넣어준다.
+            if (data.page <= 1)
+                $(ePrevBtn).attr('disabled', '');
+            else 
+                $(ePrevBtn).removeAttr('disabled');
+            
+            if (data.page >= data.totalPage)
+                $(eNextBtn).attr('disabled', '');
+            else
+                $(eNextBtn).removeAttr('disabled');
+            
+        },
+        error: function(){
+            alert("서버에서 오류 발생!");
+            
+        } //에러가 발생했을 때 호출할 메소드
+    }); //url, settings 객체
+    
+    var xhr = new XMLHttpRequest();
+    
+}
+
+function clickViewLink(event) {
+    event.preventDefault();
+    var id = $(event.currentTarget).attr('data-id');
+    location.href = `view.html?id=${id}&page=${data.page}&size=${data.size}`;
+}
+</script>
+
+</body>
+</html>

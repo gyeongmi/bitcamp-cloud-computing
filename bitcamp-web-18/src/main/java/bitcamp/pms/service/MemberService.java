@@ -49,8 +49,10 @@ public class MemberService {
         //이 중에 한개라도 오류가 뜨더라도 이전까지 작업, 실행했던 거 다 취소된다.
         //트랜잭션으로 가둬 둬야 한다.
         
+        /*
         if(count != 100)
             throw new RuntimeException("일부러 예외 발생"); //서버리스타트 하면 java.lang.RuntimeException: 일부러 예외 발생
+        */      
         //어떤 예외를 던진다고 보고 하지만
         //적을 필요가 없다.. 무조건 뜨게 되어 있다.
         //트랜잭션으로 묶지 않았기 때문에 update한 데이터가 유효한다.

@@ -25,7 +25,7 @@ dependencies {
     compile group: 'javax.servlet', name: 'jstl', version: '1.2'
     
     // JSON 데이터 처리 라이브러리
-    //compile group: 'com.google.code.gson', name: 'gson', version: '2.8.5'
+    compile group: 'com.google.code.gson', name: 'gson', version: '2.8.5'
     
     // 파일 업로드 관련 라이브러리
     // => Servlet 3.0에서 제공하는 멀티파트 처리기를 사용할 때는 이 라이브러리가 필요 없다.
