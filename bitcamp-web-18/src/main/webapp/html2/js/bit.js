@@ -96,6 +96,31 @@ let bit = function(value) {
     el.click = function(handler) {
         return el.on('click', handler);
     };
+
+    el.css = function(name, value) {
+        if (arguments.length == 1) {
+            return el[0].style[name];
+        }
+        for (var e of el) {
+            e.style[name] = value;
+        }
+        return el;
+    };
+    
+    //인풋박스에 값을 집어넣는데 el.val(value의 약자) = function
+    //인풋 박스에 있는 값을 꺼낼때 맵으로 꺼낼 거임
+    //값을 안주면 꺼내란 뜻
+    //값을 주면 값을 설정하라는 뜻
+    el.val = function(value) {
+        if (arguments.length == 0) {
+            return el[0].value;
+        }
+        
+        for (var e of el) {
+            e.value = value;
+        }
+        return el;
+    };
     
     return el;
 };
@@ -148,19 +173,31 @@ bit.ajax = function(url, settings) {
         }
     };
     
-    // settings에 서버로 보낼 data가 있다면 url에 포함해야 한다.
+    // settings에 서버로 보낼 data가 있다면 query String으로 만든다.
+    var qs = ''; //로컬변수이지만 data 있으면 쿼리 스트링  만든다.
+
     if (settings.data) {
-        var qs = '';
         for (var propName in settings.data) {
             qs += `&${propName}=${settings.data[propName]}`;
         }
+    }
+    
+    if(settings.method == 'GET'){
         if (url.indexOf('?') == -1)
             url += '?';
         url += qs;
+        //console.log(url);
+        xhr.open(settings.method, url, true);
+        xhr.send();
+    }else{ //포스트 일 경우
+        xhr.open(settings.method, url, true);
+        xhr.setRequestHeader('Content-Type', 
+            'application/x-www-form-urlencoded'); //반드시 있어야 함
+        //url에 붙이는 게 아니라 send할 때 qs 보낸다.
+        xhr.send(qs);
+        
     }
-    console.log(url);
-    xhr.open(settings.method, url, true);
-    xhr.send();
+    
     
     // XMLHttpRequest 객체를 리턴하기 전에 함수를 추가한다.
     let done;
@@ -170,6 +207,7 @@ bit.ajax = function(url, settings) {
     
     return xhr;
 };
+
 
 bit.getJSON = function(url, p2, p3) {
     let data = {};
@@ -187,7 +225,37 @@ bit.getJSON = function(url, p2, p3) {
         data: data,
         success: success
     });
-}
+};
+
+bit.post = function(url, p2, p3, p4) {
+    let data = {};
+    let success = null;
+    let dataType = 'text';
+    
+    if (arguments.length == 2) { //아규먼트가 두개 일때
+        if (typeof p3 == "function") {
+            data = p2;
+            success = p3;
+        } else if (typeof p2 == "function") { //data가 안 넘어 올 경우
+            success = p2;
+            dataType = p3;
+        } else {
+            data = p2;
+            dataType = p3;
+        }
+    } else if (arguments.length > 2) {
+        data = p2;
+        success = p3;
+        dataType = p4;
+    }
+    
+    return bit.ajax(url, {
+        method: 'POST',
+        dataType: dataType,
+        data: data,
+        success: success
+    });
+};
 
 
 let $ = bit;

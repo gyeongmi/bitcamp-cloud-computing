@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset='UTF-8'>
+<title>멤버 보기</title>
+</head>
+<body>
+<h1>멤버 보기3</h1>
+<form>
+<table border='1'>
+<tr><th>아이디</th><td>
+    <input type='text' id='eId' readonly></td></tr>
+<tr><th>이메일</th>
+    <td><input type='email' id='eEmail'></td></tr>
+<tr><th>암호</th>
+    <td><input type='password' id='ePassword'></td></tr>
+</table>
+<p>
+<button id="eListBtn" type="button">목록</button>
+<button id="eUpdateBtn" type="button" class="viewform">변경</button>
+<button id="eDeleteBtn" type="button" class="viewform">삭제</button>
+<button id="eAddBtn" type="button" class="newform">등록</button>
+</p>
+</form>
+
+<script src="../js/bit.js"></script>
+<script>
+"use strict"
+
+var data = null;
+var {id, page, size} = $.parseQuery(location.href);
+
+if (id == undefined) { // 입력 폼 
+    $('.viewform').css('display','none');
+    $(eId).removeAttr('readonly');
+
+} else { // 상세 보기 폼
+    $('.newform').css('display', 'none');
+    
+    //url에 아이디가 넘어가기 때문에 {}(데이터??) 이건 따로 할 필요가 없다.
+    $.getJSON(`../../json/member/view/${id}`,
+            function(result){
+		        data = result;
+		        //데이터란 변수에 리졸트 저장
+		        if (data.member == null) {
+		            alert('아이디가 무효합니다.');
+		            location.href = "list.html";
+		            return;
+		        }
+		        $(eId).val = data.member.id;
+		        $(eEmail).val = data.member.email;
+	});
+}
+
+//오리지날 태그를 가공하면 click이란 함수가 있고 호출되게 함수를 등록하는 것이다.
+$(eListBtn).click = function() {
+    if (page) {
+        location.href = `list.html?page=${page}&size=${size}`;
+    } else {
+        location.href = 'list.html';
+    }
+};
+
+//가공된 eupdatebtn 함수를 호출해 다오
+$(eUpdateBtn).click(function() {
+    //서버에 보내는 데이터
+    $.ajax('../../json/member/update',{ //먼저'../../json/member/update2' 이렇게 해서 테스트(form data 넘어갔는지) 한 다음 update로 바꾼다.
+        method: 'POST',
+       
+        dataType: 'json',
+        data: {  //값을 넘긴다 `id=${eId.value}&email=${eEmail.value}&password=${ePassword.value}` 할 필요가 없어짐
+            id: $(eId).val(),
+            email: $(eEmail).val,
+            password: $(ePassword).val
+            }, //파라미터로 개수로 get, set 구분한다..가공된 eId라는 값을 꺼내는 getter
+	    success: function(data){ //성공할 때 호출될 메소드
+	        if (data.status == 'success') {
+	            location.href = `list.html?page=${page}&size=${size}`;
+	        } else {
+	            alert('변경 오류입니다!');
+	            console.log(data.error);
+	        }
+	        
+	    }
+    });
+    
+});
+
+eDeleteBtn.onclick = function() {
+    var xhr = new XMLHttpRequest();
+    
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState < 4) return;
+        if (xhr.status !== 200) {
+            alert('서버에서 오류 발생!');
+            return;
+        }
+        let data = JSON.parse(xhr.responseText);
+        if (data.status == 'success') {
+            location.href = `list.html?page=${page}&size=${size}`;
+        } else {
+            alert('삭제 오류입니다!');
+            console.log(data.error);
+        }
+    };
+    
+    xhr.open('GET', 
+            `../../json/member/delete?id=${eId.value}`,
+            true);
+    xhr.send();
+}
+
+eAddBtn.onclick = function() {
+    var xhr = new XMLHttpRequest();
+    
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState < 4) return;
+        if (xhr.status !== 200) {
+            alert('서버에서 오류 발생!');
+            return;
+        }
+        location.href = 'list.html';
+    };
+    
+    xhr.open('POST', '../../json/member/add', true);
+    xhr.setRequestHeader('Content-Type', 
+            'application/x-www-form-urlencoded');
+    xhr.send(`id=${eId.value}&email=${eEmail.value}&password=${ePassword.value}`);
+};
+    
+</script>
+
+</body>
+</html>

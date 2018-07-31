@@ -1,0 +1,84 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset='UTF-8'>
+<title>멤버 목록</title>
+</head>
+<body>
+<h1>멤버 목록5</h1>
+<p><a href='view.html'>새회원</a></p>
+
+<table id="eListTable" border='1'>
+<thead>
+	<tr>
+		<th>아이디</th><th>이메일</th>
+	</tr>
+</thead>
+</table>
+
+<div>
+	<button id="ePrevBtn">이전</button>
+	<span id="ePageNo"></span>
+	<button id="eNextBtn">다음</button>
+</div>
+
+
+<div>
+	<!-- 파라미터 꺼낼때 파람을 씁니다 -->
+	<c:if test="${page >1}">
+	   <a href="list?page=${page - 1}&size=${size}">[이전]</a>
+	</c:if>
+    <c:if test="${page <= 1}">
+        [이전]
+    </c:if>
+	
+	<span>${page}</span> <!-- 알아서 서블릿 리퀘스트에서 꺼내 옴 ${requestScope.page} 생략해도 됨 -->
+	
+	<c:if test="${page < totalPage }">
+	    <a href="list?page=${page + 1}&size=${size}">[다음]</a>
+	</c:if>
+	<c:if test="${page >= totalPage }">
+	    [다음]
+	</c:if>
+	
+	<%-- <a href="list?page=${param.page - 1}&size=${param.size}">[이전]</a>
+	<span>${page}</span> <!-- 알아서 서블릿 리퀘스트에서 꺼내 옴 ${requestScope.page} 생략해도 됨 -->
+	<a href="list?page=${param.page + 1}&size=${param.size}">[다음]</a> --%>
+</div>
+
+<script src="../js/common.js"></script>
+<script>
+"use strict"
+
+/*
+객체 비구조화 할당 (https://memotip.github.io/destructuring-assignment/)
+var o = { p: 42, q: true };
+var { p, q } = o;
+bitcamp-javascript - step01 - exam06-2
+//객체 값의 일부분을 분해하여 변수에 저장하기
+// => 객체 값을 분해하여 변수에 저장할 때는 변수 선언에 중괄호{}를 사용하라!
+// => 객체에서 추출하고자 하는 프로퍼티 이름과 같은 이름으로 변수를 선언해야 한다.
+bitcamp-javascript - step03 - exam07-3
+리턴 값 받기
+*/
+
+var {page, size} = parseQuery(location.href);
+
+let
+
+
+function clickViewLink(event){
+	event.preventDefault();
+	var id = event.currentTarget.getAttribute('data-id');
+	location.href = 
+}
+
+
+
+
+
+</script>
+
+</body>
+</html>

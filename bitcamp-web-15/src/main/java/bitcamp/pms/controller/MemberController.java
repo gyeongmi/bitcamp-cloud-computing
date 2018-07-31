@@ -33,7 +33,7 @@ public class MemberController {
     }
 */
 
-    //@RequestMapping("/member/listlist")
+    //@RequestMapping("/member/list")
     @RequestMapping("list")
     public String list(
             @RequestParam(defaultValue="1") int page,
@@ -56,7 +56,7 @@ public class MemberController {
     }
     
     //스프링 버전 4.3 이상부터 GetMapping
-    // = @RequestMapping(value="/member/add", method=RequestMethod.GET)
+    // = @RequestMapping(value="/member/form", method=RequestMethod.GET)
     @GetMapping("form")
     public void form() {
         //return "/member/form";*

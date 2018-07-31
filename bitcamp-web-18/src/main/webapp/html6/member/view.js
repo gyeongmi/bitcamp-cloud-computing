@@ -1,30 +1,3 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset='UTF-8'>
-<title>멤버 보기</title>
-</head>
-<body>
-<h1>멤버 보기3</h1>
-<form>
-<table border='1'>
-<tr><th>아이디</th><td>
-    <input type='text' id='eId' readonly></td></tr>
-<tr><th>이메일</th>
-    <td><input type='email' id='eEmail'></td></tr>
-<tr><th>암호</th>
-    <td><input type='password' id='ePassword'></td></tr>
-</table>
-<p>
-<button id="eListBtn" type="button">목록</button>
-<button id="eUpdateBtn" type="button" class="viewform">변경</button>
-<button id="eDeleteBtn" type="button" class="viewform">삭제</button>
-<button id="eAddBtn" type="button" class="newform">등록</button>
-</p>
-</form>
-
-<script src="../js/bit.min.js"></script>
-<script>
 "use strict"
 
 var data = null;
@@ -37,8 +10,7 @@ if (id == undefined) { // 입력 폼
 } else { // 상세 보기 폼
     $('.newform').css('display', 'none');
     
-    //url에 아이디가 넘어가기 때문에 {}(데이터??) 이건 따로 할 필요가 없다.
-    $.getJSON(`../../json/member/view/${id}`, 
+    $.getJSON(serverApiAddr + `/json/member/view/${id}`, 
             function(result) {
                 data = result;
                 if (data.member == null) {
@@ -51,7 +23,6 @@ if (id == undefined) { // 입력 폼
     });
 }
 
-//오리지날 태그를 가공하면 click이란 함수가 있고 호출되게 함수를 등록하는 것이다.
 $(eListBtn).click(function() {
     if (page) {
         location.href = `list.html?page=${page}&size=${size}`;
@@ -60,14 +31,8 @@ $(eListBtn).click(function() {
     }
 });
 
-//가공된 eupdatebtn 함수를 호출해 다오
 $(eUpdateBtn).click(function() {
-   // 포스트 첫번째 url
-    //두번째 데이타
-   // 세번째 성공됫을때 호출할 메서드
-    //네번째 파라미터가 서버에 보내는 데이타 타입
-    
-    $.post('../../json/member/update', 
+    $.post(serverApiAddr +'/json/member/update', 
             {
                 id: $(eId).val(), 
                 email: $(eEmail).val(), 
@@ -85,7 +50,7 @@ $(eUpdateBtn).click(function() {
 });
 
 $(eDeleteBtn).click(function() {
-    $.getJSON(`../../json/member/delete?id=${eId.value}`,
+    $.getJSON(serverApiAddr + `/json/member/delete?id=${eId.value}`,
       function(data){
         if (data.status == 'success') {
             location.href = `list.html?page=${page}&size=${size}`;
@@ -97,10 +62,9 @@ $(eDeleteBtn).click(function() {
      });
 });
 
-//오리지널 태그는제이쿼리 함수를 이용해서 가공한다.
 $(eAddBtn).click(function() {
     
-    $.post('../../json/member/add', 
+    $.post(serverApiAddr + '/json/member/add', 
          {
              id: $(eId).val(), 
              email: $(eEmail).val(), 
@@ -111,8 +75,3 @@ $(eAddBtn).click(function() {
          },
          'json');
 });
-    
-</script>
-
-</body>
-</html>

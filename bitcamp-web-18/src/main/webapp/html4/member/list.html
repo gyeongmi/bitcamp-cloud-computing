@@ -3,12 +3,31 @@
 <head>
 <meta charset='UTF-8'>
 <title>멤버 목록</title>
-</head>
-<body>
-<h1>멤버 목록5</h1>
-<p><a href='view.html'>새회원</a></p>
+<!-- css는 헤더 쪽에 저장 -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+<link rel="stylesheet" href="../css/common.css"> <!-- 스타일 태그 이곳으로 링크, 공통 css 분리 -->
+<!-- <style>
+div.container{ /* 현재위치를 고정한다. 항상 가운데 정렬 */
+    width: 500px;
+    /* border: 1px solid gray; */
 
-<table id="eListTable" border='1'>
+}
+
+</style>
+ -->
+</head>
+
+<body>
+
+<!-- Layout -->
+<div class="container">
+  <!-- Content here -->
+
+
+<h1>멤버 목록5</h1>
+<p><a href='view.html' class="btn btn-secondary btn-sm">새회원</a></p>
+
+<table id="eListTable" class="table table-hover">
 <thead>
   <tr><th>아이디</th><th>이메일</th></tr>
 </thead>
@@ -16,13 +35,19 @@
 </table>
 
 <div>
-  <button id="ePrevBtn">이전</button>
+  <button id="ePrevBtn" class="btn btn-outline-primary btn-sm">이전</button>
   <span id="ePageNo"></span> 
-  <button id="eNextBtn">다음</button>
+  <button id="eNextBtn" class="btn btn-outline-primary btn-sm">다음</button>
 </div>
 
+</div><!-- .container Div -->
 
-<script src="../js/bit.min.js"></script>
+<!-- 스크립트 태그는 항상 순서대로 적용된다. -->
+<!-- 제이쿼리가 먼저 실행되고 밑에 파퍼 객체가 준비된 다음 부트스트랩이다. 제이쿼리 밑에 부트스트랩을 둬야 오류가 안 남.  -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+<script src="../js/jquery.bit.js"></script>
 <script>
 "use strict"
 
