@@ -44,4 +44,13 @@
 	            </bean>
 	        </mvc:message-converters>
 	    </mvc:annotation-driven>
+	    
+	    <!-- AJAX 요청에 대한 CrossDomain 설정 -->
+	    <mvc:cors>
+
+        <!-- <mvc:mapping path="json/**" -> /json/json/** 오류 -->
+	    <mvc:mapping path="/**"
+	        allowed-origins="*"
+	        max-age="100" /> <!-- max-age = 초 -->
+        </mvc:cors>
 </beans>

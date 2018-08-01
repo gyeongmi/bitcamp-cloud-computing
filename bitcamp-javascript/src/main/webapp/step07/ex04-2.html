@@ -26,23 +26,23 @@ div[id^='d2']{
 
 <div id="d1">d1
     <div id="d11">d11
-        <button id="btn1">버튼1</button>
-        <button id="btn2">버튼2</button>
+        <button id="btn1">버튼 1</button>
+        <button id="btn2">버튼 2</button>
     </div>
     <div id="d12">d12
-        <button id="btn3">버튼3</button>
-        <button id="btn4">버튼4</button>
+        <button id="btn3">버튼 3</button>
+        <button id="btn4">버튼 4</button>
     </div>
 </div>
 
 <div id="d2">d2
     <div id="d21">d21
-        <button id="btn5">버튼5</button>
-        <button id="btn6">버튼6</button>
+        <button id="btn5">버튼 5</button>
+        <button id="btn6">버튼 6</button>
     </div>
     <div id="d22">d22
-        <button id="btn7">버튼7</button>
-        <button id="btn8">버튼8</button>
+        <button id="btn7">버튼 7</button>
+        <button id="btn8">버튼 8</button>
     </div>
 </div>
 
@@ -63,7 +63,7 @@ d12.onclick = function() {console.log("d12")};
 // => 세 번째 파라미터 값이 true 이면
 //    capture와 target 단계에서 호출하라는 의미다.
 //true 적지 않으면 target 또는 bublle 단계에서 호출 (기본)
-d2.addEventListener("click", function() {console.log("d2")}, true); 
+d2.addEventListener("click", function() {console.log("d2")}, true);
 d21.addEventListener("click", function() {console.log("d21")}, true);
 
 //d22는 기본 상태에 target 또는 buble 단계에서 호출될 것이다.
@@ -74,10 +74,10 @@ btn2.onclick = function() {console.log("btn2")};
 btn3.onclick = function() {console.log("btn3")};
 btn4.onclick = function() {console.log("btn4")};
 
-btn5.addEventListener("click", function(){console.log("btn5")});
-btn6.addEventListener("click", function(){console.log("btn6")});
-btn7.addEventListener("click", function(){console.log("btn7")});
-btn8.addEventListener("click", function(){console.log("btn8")});
+btn5.addEventListener("click", function() {console.log("btn5")});
+btn6.addEventListener("click", function() {console.log("btn6")});
+btn7.addEventListener("click", function() {console.log("btn7")});
+btn8.addEventListener("click", function() {console.log("btn8")});
 
 </script>
 

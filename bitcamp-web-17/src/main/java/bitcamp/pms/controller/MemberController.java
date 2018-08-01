@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,6 +20,7 @@ import bitcamp.pms.dao.MemberDao;
 import bitcamp.pms.domain.Member;
 import bitcamp.pms.service.MemberService;
 
+//@CrossOrigin //모두
 @Controller
 @RequestMapping("/member") // /member 반복되니까
 public class MemberController {
@@ -26,7 +28,8 @@ public class MemberController {
     @Autowired MemberService memberService;
     
     //@Autowired MemberDao memberDao;
-
+    
+    @CrossOrigin //리스트만
     @RequestMapping("list")
     public String list(
             @RequestParam(defaultValue="1") int page,

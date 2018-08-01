@@ -1,0 +1,7 @@
+@charset "UTF-8";
+
+div.container{ /* 현재위치를 고정한다. 항상 가운데 정렬 */
+    width: 600px;
+    /* border: 1px solid gray; */
+
+}

@@ -1,0 +1,1 @@
+var serverApiAddr = "http://192.168.0.60:8080/bitcamp-web-18"; //서버 API 주소    
