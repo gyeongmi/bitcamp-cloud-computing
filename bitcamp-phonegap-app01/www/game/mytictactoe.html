@@ -2,26 +2,27 @@
 <html>
 <head>
 <meta charset="UTF-8">
+
 <title>Insert title here</title>
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
 <style>
 div.container{
     width: 500px;
     height: 500px;
     border: 1px solid gray;
-    
+    text-align: center;
 }
 
 div.a{
     border: 1px solid gray;
 }
+
 button{
-    height: 40px;
-    width: 40px;
-    
-
+    height: 70px;
+    width: 70px;
+    margin: 5px;
 }
-
 
 </style>
 </head>
@@ -101,20 +102,15 @@ btn9.onclick = function(){
 
 
 
-var count = 1;
-var time = window.setInterval(function(){
-    count++;
-    console.log("잏")
-    document.getElementById("btn2").innerHTML = "O";
-    if(count==6)
-        window.clearInterval(time);
+window.setTimeout(function(){
+    var el = document.querySelectorAll("button");
+    var random = Math.floor(Math.random() * 9);
+    console.log(random);
+    el[random].innerHTML = "O";
 }, 2000);
 
+
 var el = document.querySelectorAll("div > button");
-
-
-
-console.log(Math.floor(Math.random() * 10)+1);
 
 
 </script>
