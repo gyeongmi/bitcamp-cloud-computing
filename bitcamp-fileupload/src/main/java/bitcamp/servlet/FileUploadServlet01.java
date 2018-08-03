@@ -29,6 +29,8 @@ public class FileUploadServlet01 extends HttpServlet {
         //일반 폼으로 전송된 한글 데이터가 깨지지 않고 유니코드로 바뀔 때 깨지지 않게 하려면
         //getParameter()를 호출하기 전에 다음 명령을 먼저 실행해야 한다.
         //그러나 멀티파트 전송인 경우는 소용 없다! 
+        //req.setCharacterEncoding("UTF-8");
+        
         
         //업로드 파일을 외장 하드에 저장하는 역할을 수행
         DiskFileItemFactory factory = new DiskFileItemFactory();
@@ -70,6 +72,15 @@ public class FileUploadServlet01 extends HttpServlet {
         out.printf("photo = <a href='files/%s'>%s</a><br>\n", 
                 paramMap.get("photo"),
                 paramMap.get("photo"));
+        out.printf("<p><img src='files/%s'></p>", paramMap.get("photo")); //업로드하자마자 이미지 태그 소스를 지정하는 경우
+        out.println("<p><img id='img1'></p>"); //자바스크립트에 의해서 5초가 지난후 이미지 태그 소스를 지정하는 경우
+        out.println("<script>");
+        out.println("   setTimeout(() => {");
+        out.printf("        document.getElementById('img1').src = 'files/%s';", 
+                paramMap.get("photo"));
+        out.println("   },5000)");
+        out.println("</script>");
+
         out.println("</body></html>");
     }
 }
