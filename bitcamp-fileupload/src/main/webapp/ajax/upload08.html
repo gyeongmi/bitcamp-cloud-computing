@@ -14,7 +14,6 @@
 </pre>
 
 <input id="fileupload" type="file" name="files" multiple>
-
 <hr>
 <div id="imgList"></div>
 
@@ -35,19 +34,24 @@ $('#fileupload').fileupload({
     var filename = data.result.filenames[0];
     setTimeout(()=>{
         $('<img>').attr('src', `../files/${filename}`)
-        .css('height','60px').appendTo('#imgList');
-    },5000);
+            .css('height', '60px')
+            .appendTo('#imgList');
+    }, 5000);
   }
 }); 
 
-// url 옵션의 값을 변경하기
-//$('#fileupload').fileupload('option', 'url', '../mvc/exam11_2/upload01');
 
-// 변경할 옵션 값이 여러 개일 경우 다음과 같이 자바스크립트 객체에 담아서 넘길 수 있다.
+//url 옵션의 값을 변경하기
+//$('#fileupload').fileupload(
+//       'option', 
+//       'url', 
+//       '../mvc/ajax/upload01');
 
-$('#fileupload').fileupload('option', {
-  url: '../mvc/ajax/upload01',
-  sequentialUploads: false
+//변경할 옵션 값이 여러 개일 경우 다음과 같이 자바스크립트 객체에 담아서 넘길 수 있다.
+$('#fileupload').fileupload(
+     'option', {
+         url: '../mvc/ajax/upload01',
+         sequentialUploads: false
 });
 
 

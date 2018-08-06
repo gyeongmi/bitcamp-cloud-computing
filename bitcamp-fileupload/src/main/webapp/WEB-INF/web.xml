@@ -39,7 +39,7 @@
     </servlet-mapping>
     
     
-    <servlet>
+   <servlet>
         <servlet-name>fileupload05</servlet-name>
         <servlet-class>bitcamp.servlet.FileUploadServlet05</servlet-class>
         <multipart-config>

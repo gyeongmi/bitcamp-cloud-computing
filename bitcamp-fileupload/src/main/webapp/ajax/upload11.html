@@ -17,10 +17,10 @@
 나이: <input id='age' type='text'><br>
 사진: <input id="fileupload" type="file" name="files" multiple><br>
 <button id='upload-btn' type='button'>등록</button>
-  
+
 <hr>
 <div id="imgList"></div>
- 
+
 <script src='node_modules/jquery/dist/jquery.js'></script>
 <script src="node_modules/blueimp-file-upload/js/vendor/jquery.ui.widget.js"></script>
 <script src="node_modules/blueimp-file-upload/js/jquery.iframe-transport.js"></script>
@@ -41,27 +41,32 @@ $('#fileupload').fileupload({
         console.log('Added file: ' + file.name);
     });
     
+    //ioc의 한 예(흐름의 역행)
     $('#upload-btn').click(function() {
-        //파일이 아닌 일반 데이터는 data 객체의 formData 프로퍼티에  설정한다.
+        // 파일이 아닌 일반 데이터는 data 객체의 formData 프로퍼티에 설정한다.
         data.formData = {
             name: $('#name').val(),
             age: $('#age').val()
         };
-        data.submit();
+        data.submit(); //자동 업로드 하지 말고 클릭했을 때 업로드 하도록..
     });
   }, 
   done: function (e, data) { // 서버에서 응답이 오면 호출된다. 각 파일 별로 호출된다.
     console.log('done()...');
     console.log(data.result);
+    
     setTimeout(()=>{
-        $('<p>').text(`name=${data.result.name}`).appendTo('#imgList');
-        $('<p>').text(`age=${data.result.age}`).appendTo('#imgList');
+        $('<p>').text(`name=${data.result.name}`)
+            .appendTo('#imgList');
+        $('<p>').text(`age=${data.result.age}`)
+            .appendTo('#imgList');
         
-        for(var filename of data.result.filenames){
+        for (var filename of data.result.filenames) {
             $('<img>').attr('src', `../files/${filename}`)
-            .css('height','60px').appendTo('#imgList');
+                .css('height', '60px')
+                .appendTo('#imgList');
         }
-    },5000);
+    }, 5000);  
   }
 }); 
 

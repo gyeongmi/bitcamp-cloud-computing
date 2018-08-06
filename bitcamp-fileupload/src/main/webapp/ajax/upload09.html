@@ -15,8 +15,6 @@
 </pre>
 
 <input id="fileupload" type="file" name="files" multiple><br>
-
-
 <hr>
 <div id="imgList"></div>
 
@@ -37,15 +35,15 @@ $('#fileupload').fileupload({
     console.log(data.result);
     setTimeout(()=>{
         
-        //for(var filename of data.result.filenames){...} 이렇게도 가능
-        //$.each(배열, 함수(인덱스, 항목){...})
+        //for (var filename of data.result.filenames) {...}
+        //$.each(배열, 함수(인덱스,항목) {...})
         $.each(data.result.filenames, function(index, filename) {
             $('<img>').attr('src', `../files/${filename}`)
-            .css('height','60px').appendTo('#imgList');
+                .css('height', '60px')
+                .appendTo('#imgList');
         });
-    },5000);
-
-
+        
+    }, 5000);
   }
 }); 
 

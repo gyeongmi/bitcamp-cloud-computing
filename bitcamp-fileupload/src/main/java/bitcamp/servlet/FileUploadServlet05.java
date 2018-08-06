@@ -33,15 +33,16 @@ public class FileUploadServlet05 extends HttpServlet {
             HttpServletResponse resp) throws ServletException, IOException {
         
         try {
-            //여러개일 경우 getPart
-            String name = req.getParameter("name"); //문자열만 추출하자. .getString
-            String age = req.getParameter("age"); //age는 utf8이 필요 X
+            String name = req.getParameter("name");
+            String age = req.getParameter("age");
             Part photo = req.getPart("photo");
             
+            // 새 파일명 준비
             String newfilename = UUID.randomUUID().toString(); 
             String path = this.getServletContext().getRealPath(
                     "/files/" + newfilename);
             
+            // Part 데이터를 저장한다.
             photo.write(path);
             
             resp.setContentType("text/html;charset=UTF-8");
@@ -62,7 +63,7 @@ public class FileUploadServlet05 extends HttpServlet {
             out.println("    }, 5000);");
             out.println("</script>");
             out.println("</body></html>");
-        
+            
         } catch (Exception e) {
             e.printStackTrace();
         }

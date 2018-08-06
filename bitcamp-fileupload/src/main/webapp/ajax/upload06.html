@@ -20,8 +20,6 @@
 
 <input id="fileupload" type="file" name="files" 
        data-url="../mvc/ajax/upload01" multiple>
-
-
 <hr>
 <div id="imgList"></div>
 
@@ -37,7 +35,7 @@ $('#fileupload').fileupload({
     add: function (e, data) {
         console.log('add()...');
         data.context = $('<button/>').text('Upload')
-          .appendTo(document.body)
+          .appendTo('#imgList')
           .click(function () {
               data.context = $('<p/>').text('Uploading...').replaceAll($(this));
               data.submit();// 해당 파일의 서버 전송을 시작한다.
@@ -48,8 +46,9 @@ $('#fileupload').fileupload({
       console.log(data.result);
       var filename = data.result.filenames[0];
       setTimeout(()=>{
-	      data.context.html(`<img width='100' src='../files/${filename}'>`);
-      },5000);
+          data.context.html(
+              `<img width='100' src='../files/${filename}'>`);
+      }, 5000);
     }
 });
 

@@ -42,17 +42,19 @@ public class FileUploadServlet03 extends HttpServlet {
         InputStream fileContent = null;
         OutputStream fileOut = null;
         try {
-            Map<String, List<FileItem>> paramMap =
+            Map<String, List<FileItem>> paramMap = 
                     upload.parseParameterMap(req); //map 객체를 아예 리턴한다.
             String name = paramMap.get("name").get(0).getString("UTF-8"); //문자열만 추출하자. .getString
             String age = paramMap.get("age").get(0).getString(); //age는 utf8이 필요 X
             FileItem photoItem = paramMap.get("photo").get(0);
             
+            // 새 파일명 준비
             String newfilename = UUID.randomUUID().toString(); 
             String path = this.getServletContext().getRealPath(
                     "/files/" + newfilename);
             
             //photoItem.write(new File(path)); 이것 대신에...
+            // 입력 스트림을 통해 데이터를 읽고 출력 스트림으로 저장하기
             fileContent = photoItem.getInputStream();
             fileOut = new FileOutputStream(path);
             
@@ -64,6 +66,7 @@ public class FileUploadServlet03 extends HttpServlet {
                 //배열로 읽으라고 한다. 읽은 개수를 리턴한다. 못읽었으면 -1 을 리턴)
                 //읽은 개수 만큼 출력한다.
             }
+            
             fileOut.flush(); //버퍼에 남은 게 있으면 깔끔하게 다 출력
             
             resp.setContentType("text/html;charset=UTF-8");
@@ -84,14 +87,12 @@ public class FileUploadServlet03 extends HttpServlet {
             out.println("    }, 5000);");
             out.println("</script>");
             out.println("</body></html>");
-        
+            
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
             try {fileContent.close();} catch (Exception e) {}
             try {fileOut.close();} catch (Exception e) {} //입출력 닫아줘야 한다..
-            
         }
-
     }
 }

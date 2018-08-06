@@ -54,18 +54,18 @@ var jqImgList = $('#imgList');
 
 $('#fileupload').fileupload({ //실행하라는 뜻 X 지정한 태그에 대해서 관련 정보를 설정하라는 뜻이다.
     dataType: 'json',
-    done: function (e, data) {  //done: 서버에서 응답을 받았을 때 함수가 호출된다. data=서버에서 보낸 데이터
+    done: function (e, data) {   //done: 서버에서 응답을 받았을 때 함수가 호출된다. data=서버에서 보낸 데이터
      //낱개로 1번씩 보낸다.
      //파일을 묶어서 보내지 말고(파일 업로드하는데 시간 걸림) 낱개로 해서 등록하면 파일 정보들이 서버에 저장된다.
       console.log('done()...');
       console.log(data.result); // 서버가 보낸 JSON 객체는 data.result 에 보관되어 있다.
       
-      setTimeout(()=>{
-	      $('<img>')
-		      .attr('src','../files/' + data.result.filenames[0])
-		      .css('height', '80px')
-		      .appendTo(jqImgList);
-      },5000);
+      etTimeout(() => {
+          $('<img>')
+            .attr('src', '../files/' + data.result.filenames[0])
+            .css('height', '80px')
+            .appendTo(jqImgList);
+      }, 5000);
 
       
       

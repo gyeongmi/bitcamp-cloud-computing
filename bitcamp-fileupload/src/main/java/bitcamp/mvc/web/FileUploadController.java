@@ -30,10 +30,10 @@ public class FileUploadController {
             //
             //
             String name, 
-            int age,
+            int age, 
             MultipartFile photo,
             Model model) {
-        
+
         // 새 파일명 준비
         String newfilename = UUID.randomUUID().toString(); 
         String path = sc.getRealPath("/files/" + newfilename);

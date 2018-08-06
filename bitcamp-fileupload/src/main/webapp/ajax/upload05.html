@@ -19,8 +19,6 @@
 
 <input id="fileupload" type="file" name="files"
        data-url="../mvc/ajax/upload01" multiple>
-<div id="btnBox"></div>
-
 <hr>
 <div id="imgList"></div>
 
@@ -38,18 +36,25 @@ $('#fileupload').fileupload({
         data.context = $('<button/>')
           .text('업로드')
           .click(function () {
-              data.context = $('<p/>').text('Uploading...').replaceAll($(this)); //this 클릭이벤트가 발생된 객체 여기서는 button replaceAll = 교체한다.
+              data.context = $('<p/>').text('업로드 중...')
+                                      .replaceAll($(this)); //this 클릭이벤트가 발생된 객체 여기서는 button replaceAll = 교체한다.
               data.submit();// 해당 파일의 서버 전송을 시작한다.
-          });
-          .appendTo('#imgList') //자식으로 추가될 것임
+          })
+          .appendTo('#imgList');
     },
     done: function (e, data) {
       console.log('done()...');
       console.log(data);
       console.log(data.result);
-      var file = data.result;
-      $('<img/>').attr("src", "../files/" + file.filename)
-               .replaceAll(data.context);
+      
+      var pTag = data.context;
+      var filename = data.result.filenames[0];
+      
+      setTimeout(() => {
+          pTag.html('');
+          $('<img>').attr('src', '../files/' + filename)
+                    .appendTo(pTag);
+      }, 5000);
     }
 });
 

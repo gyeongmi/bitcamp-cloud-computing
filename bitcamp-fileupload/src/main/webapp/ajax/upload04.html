@@ -17,8 +17,7 @@
 </pre>
 
 <input id="fileupload" type="file" name="files" 
-       data-url="../mvc/exam11_2/upload01" multiple>
-       
+       data-url="../mvc/ajax/upload01" multiple>
 <hr>
 <div id="imgList">
 <p>업로드 중...</p>
@@ -40,30 +39,28 @@ $('#fileupload').fileupload({
     //업로드 할 파일을 선택하면, 각 파일에 대해 add()가 호출된다.
     // => add() 메소드가 존재한다면 자동 요청을 하지 않는다. //없을 때는 무조건 업로드
     // => 서버에 파일 업로드를 요청하려면 submit()을 명시적으로 호출해야 한다.
-    add: function (e, data) { // 각 파일에 대해 호출된다.
+    add: function (e, data) {  // 각 파일에 대해 호출된다.
         console.log('add()...');
         
         //data.context 는 해당 파일을 업로드 하는 동안 유지되는 프로퍼티이다.
         //용도?
         // => 파일을 업로드 하는 동안 업로드 중임을 표시하는 p 태그를 보관할 수 있다.
         data.context = $('<p>').text('업로드 중...')
-                               .appendTo('#imgList');
+                               .appendTo($('#imgList'));
         data.submit(); // 해당 파일의 서버 전송을 시작한다.
-    },
-    done: function (e, data) {
-      console.log('done()...');
-      console.log(data.result);
-      var pTag = data.context;
-      var filename = data.result.filenames[0];
-         
-      setTimeout(()=>{
-          p.html('');
-          $("<img>".attr('src', '../files' + filename))
-          .appendTo(pTag);
-      },5000);
-      
-      $()
-    }
+	},
+	done: function (e, data) {
+	    console.log('done()...');
+	    console.log(data.result);
+	    var pTag = data.context;
+	    var filename = data.result.filenames[0];
+	
+		setTimeout(()=>{
+		pTag.html('');
+		$('<img>').attr('src', '../files/' + filename)
+		.appendTo(pTag);
+		}, 5000);
+	}
 });
 
 </script>

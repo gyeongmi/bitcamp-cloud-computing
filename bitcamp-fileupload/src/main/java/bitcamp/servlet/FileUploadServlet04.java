@@ -28,13 +28,13 @@ import javax.servlet.http.Part;
 // => 애노테이션으로 설정하기
 @MultipartConfig(
         // 1MB를 넘어가는 파일일 경우 메모리에 저장하지 말고 임시 폴더에 저장한다.
-        fileSizeThreshold = 1024 * 1024,
+        fileSizeThreshold=1024 * 1024,
         
         //한 개 파일의 최대 크기를 제한한다.
-        maxFileSize = 1024 * 1024 * 2, //2메가
+        maxFileSize=1024 * 1024 * 2, //2메가
         
         //요청 데이터 전체 크기를 제한한다.
-        maxRequestSize = 1024 * 1024 * 2 * 10)
+        maxRequestSize=1024 * 1024 * 2 * 10)
         //1024 byte = 1k, 1k * 1k = 1m..  20메가 까지 허용.
 
 @WebServlet("/fileupload04")
@@ -47,14 +47,16 @@ public class FileUploadServlet04 extends HttpServlet {
         
         try {
             //여러개일 경우 getPart
-            String name = req.getParameter("name"); //문자열만 추출하자. .getString
-            String age = req.getParameter("age"); //age는 utf8이 필요 X
+            String name = req.getParameter("name");
+            String age = req.getParameter("age");
             Part photo = req.getPart("photo");
-            
+
+            // 새 파일명 준비
             String newfilename = UUID.randomUUID().toString(); 
             String path = this.getServletContext().getRealPath(
                     "/files/" + newfilename);
             
+            // Part 데이터를 저장한다.
             photo.write(path);
             
             resp.setContentType("text/html;charset=UTF-8");
@@ -75,7 +77,7 @@ public class FileUploadServlet04 extends HttpServlet {
             out.println("    }, 5000);");
             out.println("</script>");
             out.println("</body></html>");
-        
+            
         } catch (Exception e) {
             e.printStackTrace();
         }

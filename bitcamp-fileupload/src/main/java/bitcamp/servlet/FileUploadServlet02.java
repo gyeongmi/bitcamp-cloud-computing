@@ -38,7 +38,7 @@ public class FileUploadServlet02 extends HttpServlet {
         //클라이언트가 보낸 데이터를 분석한다.
         //HashMap<String,Object> paramMap = new HashMap<>();
         try {
-            Map<String, List<FileItem>> paramMap =
+            Map<String, List<FileItem>> paramMap = 
                     upload.parseParameterMap(req); //map 객체를 아예 리턴한다.
             
             //Map은 인터페이스
@@ -57,8 +57,8 @@ public class FileUploadServlet02 extends HttpServlet {
             FileItem ageItem = paramMap.get("age").get(0);
             FileItem photoItem = paramMap.get("photo").get(0);
 */
-            String name = paramMap.get("name").get(0).getString("UTF-8"); //문자열만 추출하자. .getString
-            String age = paramMap.get("age").get(0).getString(); //age는 utf8이 필요 X
+            String name = paramMap.get("name").get(0).getString("UTF-8");
+            String age = paramMap.get("age").get(0).getString();
             FileItem photoItem = paramMap.get("photo").get(0);
             
             /*List<FileItem> items = upload.parseRequest(req);
@@ -92,23 +92,23 @@ public class FileUploadServlet02 extends HttpServlet {
             out.printf("age = %s<br>\n", nameItem.getString("UTF-8"));
 */          out.printf("name = %s<br>\n", name);
             out.printf("age = %s<br>\n", age);
-
             out.printf("photo = <a href='files/%s'>%s</a><br>\n", 
                     newfilename,
                     newfilename);
             out.printf("<p><img src='files/%s'></p>", newfilename); //업로드하자마자 이미지 태그 소스를 지정하는 경우
-            out.println("<p><img id='img1'></p>"); //자바스크립트에 의해서 5초가 지난후 이미지 태그 소스를 지정하는 경우
+            out.println("<p><img id='img1'></p>");//자바스크립트에 의해서 5초가 지난후 이미지 태그 소스를 지정하는 경우
             out.println("<script>");
-            out.println("   setTimeout(() => {");
-            out.printf("        document.getElementById('img1').src = 'files/%s';", 
+            out.println("    setTimeout(() => {");
+            out.printf(
+                    "        document.getElementById('img1').src = 'files/%s';", 
                     newfilename);
-            out.println("   },5000)");
+            out.println("    }, 5000);");
             out.println("</script>");
             out.println("</body></html>");
-        
+            
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 }
+

@@ -15,7 +15,6 @@
 
 <input id="fileupload" type="file" name="files" multiple><br>
 <button id='upload-btn' type='button'>파일 업로드</button>
-  
 <hr>
 <div id="imgList"></div>
 
@@ -34,7 +33,7 @@ $('#fileupload').fileupload({
   add: function (e, data) {
     console.log('add()...');
     
-    // data.file : 사용자가 선택한 파일들 정보가 들어있다.
+    // data.files : 사용자가 선택한 파일들 정보가 들어있다.
     $.each(data.files, function (index, file) {
         console.log('Added file: ' + file.name);
     });
@@ -46,12 +45,14 @@ $('#fileupload').fileupload({
   done: function (e, data) { // 서버에서 응답이 오면 호출된다. 각 파일 별로 호출된다.
     console.log('done()...');
     console.log(data.result);
+    
     setTimeout(()=>{
-        for(var filename of data.result.filenames){
+        for (var filename of data.result.filenames) {
             $('<img>').attr('src', `../files/${filename}`)
-            .css('height','60px').appendTo('#imgList');
+                .css('height', '60px')
+                .appendTo('#imgList');
         }
-    },5000);
+    }, 5000);    
   }
 }); 
 

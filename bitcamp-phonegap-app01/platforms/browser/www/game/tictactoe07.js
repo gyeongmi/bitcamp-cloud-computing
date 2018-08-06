@@ -5,10 +5,6 @@ var human = 'X',
     isCompleted = false,
     isWorking = false;
 
-//이제 체크가 됐을 때 또 체크 하지 못하게..
-//isCellChecked
-//e의 타겟에 innerHTML != '' 빈 문자열이 아니면 리턴한다
-//눌렀는데  누른대로 계쏙 반응하면 안되기 때문에..
 
 /*$('#cell-box').on('complete', (e) => {
     alert('ok');
