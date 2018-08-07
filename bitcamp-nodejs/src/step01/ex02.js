@@ -13,6 +13,7 @@ const server = http.createServer((req, res) => {
 
 // HTTP 서버를 시작시킨다.
 // => 서버가 시작되었을 때 호출될 메서드를 등록한다.
+//8000 -> 포트번호
 server.listen(8000, () => {
     console.log("서버 실행 중...")
 });

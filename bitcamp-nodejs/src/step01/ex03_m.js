@@ -4,7 +4,7 @@
 
 function plus(a, b) {return a+b}
 function minus(a, b) {return a-b}
-function multiple(a, b) {return a+b}
+function multiple(a, b) {return a*b}
 function divide(a, b) {return a/b}
 
 // module 객체에 exports 라는 객체가 들어 있다.
@@ -19,5 +19,3 @@ exports.divide = divide;
 
 // 결론!
 // => 모듈에서 뭔가를 리턴하고 싶다면, exports 객체에 담아라!
-
-
