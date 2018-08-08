@@ -14,7 +14,7 @@ con.connect(function(err){
     console.log('연결 성공입니다!');
 });
 
-var mid ="user01";
+var mid ="user001";
 //var mid = "user001' or 1=1 or ''='";
 
 // in-parameter 방법을 사용하기.

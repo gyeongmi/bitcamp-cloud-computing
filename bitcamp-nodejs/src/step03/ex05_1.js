@@ -28,10 +28,15 @@ const server = http.createServer((req, res) => {
         'Content-Type': 'text/plain;charset=UTF-8'
     });
     
-    if(urlInfo.pathname !== '/member/list'){
-        res.end('해당 URL을 지원하지 않습니다!')
-        return;
+    if(urlInfo.pathname !== '/member/list'
+        && urlInfo.pathname !== '/member/add'
+        && urlInfo.pathname !== '/member/update'
+        && urlInfo.pathname !== '/member/delete'){
+        
+            res.end('해당 URL을 지원하지 않습니다!')
+            return;
     }
+    
     
     var pageNo = 1;
     var pageSize = 3;
@@ -44,11 +49,23 @@ const server = http.createServer((req, res) => {
     var startIndex = (pageNo - 1) * pageSize; //0부터 시작하니까,,
     //res.write(`${pageNo} ${pageSize} ${startIndex} \n`);
     
+    var mid = urlInfo.query.id
+    var email = urlInfo.query.email
+    var pwd = urlInfo.query.password
     
-    pool.query('select mid, email from pms2_member limit ?, ?',
-            [startIndex, pageSize],
-            function(err, results) { 
-                // if(err) throw err; 예외 던지기 X 예외가 발생하면 응답받아야 한다
+    
+    pool.getConnection(function(err, con){
+        if(err){
+            res.end('DB 조회 중 예외 발생!')
+            return;
+        }
+        
+        console.log('연결 객체를 얻었다.');
+        
+        if(urlInfo.pathname === '/member/list'){
+            con.query('select mid, email from pms2_member limit ?, ?',
+                    [startIndex, pageSize],
+                    function(err, results) {
                 if(err){
                     res.end('DB 조회 중 예외 발생!')
                     return;
@@ -57,11 +74,54 @@ const server = http.createServer((req, res) => {
                 for (var row of results){
                     res.write(`${row.email}, ${row.mid}\n`);
                 }
-                //pool.end(); 서버가 계속 실행 중에 있으면 pool 객체가 종료되어서는 안 된다.
                 res.end(); //응답 완료는 여기서.
+                con.release(); //커넥션 풀에 연결 객체를 반납한다.
+            });
+            
+        }
+        if(urlInfo.pathname === '/member/add'){
+            con.query('insert into pms2_member(mid, email, pwd) values(?, ?, password(?))',
+                    [mid, email, pwd],
+                    function(err) {
+                if(err){
+                    res.end('DB 조회 중 예외 발생!')
+                    return;
+                }
+                
+                res.write('등록 성공!')
+                res.end(); //응답 완료는 여기서.
+                con.release(); //커넥션 풀에 연결 객체를 반납한다.
+            });            
+        }
+        if(urlInfo.pathname === '/member/update'){
+            con.query('update pms2_member set email=?, pwd=password(?) where mid=?',
+                    [email, pwd, mid],
+                    function(err) {
+                if(err){
+                    res.end('DB 조회 중 예외 발생!')
+                    return;
+                }
+                
+                res.write('변경 성공!')
+                res.end(); //응답 완료는 여기서.
+                con.release(); //커넥션 풀에 연결 객체를 반납한다.
+            });            
+        }
+        if(urlInfo.pathname === '/member/delete'){
+            con.query('delete from pms2_member where mid=?',
+                    [mid],
+                    function(err) {
+                if(err){
+                    res.end('DB 조회 중 예외 발생!')
+                    return;
+                }
+                
+                res.write('삭제 성공!')
+                res.end(); //응답 완료는 여기서.
+                con.release(); //커넥션 풀에 연결 객체를 반납한다.
+            });            
+        }
     });
-    
-    
 });
 
 server.listen(8000, () => {

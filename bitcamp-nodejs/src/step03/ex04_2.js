@@ -33,31 +33,22 @@ const server = http.createServer((req, res) => {
         return;
     }
     
-    var pageNo = 1;
-    var pageSize = 3;
-    if(urlInfo.query.pageNo){
-        pageNo = parseInt(urlInfo.query.pageNo);
-    }
-    if(urlInfo.query.pageSize){
-        pageSize = parseInt(urlInfo.query.pageSize);
-    }
-    var startIndex = (pageNo - 1) * pageSize; //0부터 시작하니까,,
-    //res.write(`${pageNo} ${pageSize} ${startIndex} \n`);
+    var mid = urlInfo.query.id
+    var email = urlInfo.query.email
+    var pwd = urlInfo.query.password
+    //res.write(`${mid},${email},${pwd}`)
     
     
-    pool.query('select mid, email from pms2_member limit ?, ?',
-            [startIndex, pageSize],
-            function(err, results) { 
+    pool.query('insert into pms2_member(mid, email, pwd) values(?, ?, password(?))',
+            [mid, email, pwd],
+            function(err) { 
                 // if(err) throw err; 예외 던지기 X 예외가 발생하면 응답받아야 한다
                 if(err){
-                    res.end('DB 조회 중 예외 발생!')
+                    res.end('DB 처리 중 예외 발생!')
                     return;
                 }
                 
-                for (var row of results){
-                    res.write(`${row.email}, ${row.mid}\n`);
-                }
-                //pool.end(); 서버가 계속 실행 중에 있으면 pool 객체가 종료되어서는 안 된다.
+                res.write('등록 성공!')
                 res.end(); //응답 완료는 여기서.
     });
     

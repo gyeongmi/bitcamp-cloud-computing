@@ -1,10 +1,7 @@
-// 주제: 여러 개의 요청 처리하기 - 조건문을 없애고 URL과 함수를 자동 연결하기
-// => 요청 핸들러(요청이 들어왔을 때 호출되는 함수)를 좀 더 관리하기 쉽게
-//    등록을 자동화한다.
+// 주제: 코드를 모듈로 분리 - 요청 핸들러를 호출하는 코드 분리
 
-const http = require('http')
-const url = require('url')
-const mysql = require('mysql');
+const mysql = require('mysql')
+const express = require('./express02')
 
 var pool = mysql.createPool({
     connectionLimit: 10,
@@ -15,50 +12,10 @@ var pool = mysql.createPool({
     password: '1111'
 });
 
-const express = function(){ //익스프레스객체는 변수와 메소드 두개
-    reqMap: {},
-    add(url, handler){
-        this.reqMap[url] = handler;
-    },
-    get(url, handler){
-        return this.reqMap[url]
-    }
-};
+const app = express();
 
 
-const server = http.createServer((req, res) => {
-    var urlInfo = url.parse(req.url, true);
-    
-    if (urlInfo.pathname === '/favicon.ico') {
-        res.end();
-        return;
-    }
-            
-    res.writeHead(200, {
-        'Content-Type': 'text/plain;charset=UTF-8'
-    });
-    
-    var handler = express.getHandler(urlInfo.pathname);
-    
-    if (handler) {
-        try{
-            
-        }catch(err){
-            
-        }
-        list(urlInfo, req, res);
-    } else {
-        res.end('해당 URL을 지원하지 않습니다!');
-        return;
-    }
-    
-});
-
-server.listen(8000, () => {
-    console.log('서버가 시작됨!')
-})
-
-express.add('/member/list', (urlInfo, req, res) => {
+app.add('/member/list', (urlInfo, req, res) => {
     var pageNo = 1;
     var pageSize = 3;
     
@@ -85,7 +42,8 @@ express.add('/member/list', (urlInfo, req, res) => {
         res.end();
     });
 });
-express.add('/member/add', (urlInfo, req, res) => {
+
+app.add('/member/add', (urlInfo, req, res) => {
     pool.query(
             'insert into pms2_member(mid,email,pwd)\
             values(?, ?, password(?))',
@@ -100,7 +58,8 @@ express.add('/member/add', (urlInfo, req, res) => {
             res.end();
     });
 });
-express.add('/member/update', (urlInfo, req, res) => {
+
+app.add('/member/update', (urlInfo, req, res) => {
     pool.query(
             'update pms2_member set\
              email=?,\
@@ -119,16 +78,27 @@ express.add('/member/update', (urlInfo, req, res) => {
             res.end();
     });
 });
-express.add('/member/delete', (urlInfo, req, res) => {
+
+app.add('/member/delete', (urlInfo, req, res) => {
     pool.query('delete from pms2_member where mid=?',
-            [urlInfo.query.id],
-            function(err, results) {
-                if (err) {
-                    res.end('DB 조회 중 예외 발생!')
-                    return;
-                }
-                
-                res.write('삭제 성공!')
-                res.end();
-        });
+        [urlInfo.query.id],
+        function(err, results) {
+            if (err) {
+                res.end('DB 조회 중 예외 발생!')
+                return;
+            }
+            
+            res.write('삭제 성공!')
+            res.end();
+    });
+});
+
+
+app.add('/hello', (urlInfo, req, res) => {
+    res.write(`${urlInfo.query.name}님 안녕하세요!`);
+    res.end();
+});
+
+app.listen(8000, () => {
+    console.log('서버 실행 중...');
 });
