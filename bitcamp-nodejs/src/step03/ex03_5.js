@@ -1,0 +1,71 @@
+// 주제: 요청 정보 다루기 - Quiz: 계산기를 만들라!
+// [ 실행 URL ]
+// => 100 + 200 : http://localhost:8000/calc?a=100&b=200&op=%2b
+// => 100 - 200 : http://localhost:8000/calc?a=100&b=200&op=-
+// => 100 * 200 : http://localhost:8000/calc?a=100&b=200&op=*
+// => 100 / 200 : http://localhost:8000/calc?a=100&b=200&op=/
+// [ 출력 결과 ]
+// 100 + 200 = 300
+
+const http = require('http')
+
+// URL 분석에 사용할 모듈 로딩
+const url = require('url')
+
+const server = http.createServer((req, res) => {
+    var urlInfo = url.parse(req.url, true);
+    
+    if(urlInfo.pathname === '/favicon.ico') {
+        res.end();
+        return;
+    }
+    
+    console.log('요청 받았음!');
+    
+    res.writeHead(200, {
+        'Content-Type': 'text/plain;charset=UTF-8'
+    });
+    
+    var a = parseInt(urlInfo.query.a)
+    var b = parseInt(urlInfo.query.b)
+    var op = urlInfo.query.op
+    
+    /*
+    switch(op){
+    case '+': res.write(`${a} + ${b} = ${a+b}`); break;
+    case '-': res.write(`${a} - ${b} = ${a-b}`); break;
+    case '*': res.write(`${a} * ${b} = ${a*b}`); break;
+    case '/': res.write(`${a} / ${b} = ${a/b}`); break;
+    default:
+        res.write('${op} 연산자를 지원하지 않습니다.')
+        res.
+
+    }*/
+    
+    if(urlInfo.pathname === '/calc'){
+        if(urlInfo.query.op == '+'){
+            res.write(`${a} + ${b} = 
+            ${a+b} `)
+        } else if (urlInfo.query.op == '-'){
+            res.write(`${a} - ${b} = 
+            ${a-b} `)
+            
+        }  else if (urlInfo.query.op == '*'){
+            res.write(`${a} - ${b} = 
+            ${a*b} `)
+        }  else if (urlInfo.query.op == '/'){
+            res.write(`${a} - ${b} = 
+            ${a/b} `)
+        }
+            
+    } else{
+        res.write('해당 URL을 지원하지 않습니다!')
+    }
+    
+    res.end()
+    
+});
+
+server.listen(8000, () => {
+    console.log('서버가 시작됨!');
+})
