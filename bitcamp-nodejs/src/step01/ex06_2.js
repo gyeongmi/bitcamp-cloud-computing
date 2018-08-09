@@ -6,5 +6,3 @@ var obj = require('./ex06_m')();
 
 console.log(obj.plus(100,20));
 console.log(obj.minus(100,20));
-
-//exports에 저장된 함수 받기

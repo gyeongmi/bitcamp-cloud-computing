@@ -8,14 +8,15 @@ var con = mysql.createConnection({
     password: '1111'
 });
 
-con.connect(function(err){
-    //if(err) throw err;
+con.connect(function(err) {
+    if (err) throw err; 
     
     console.log('연결 성공입니다!');
 });
 
-var email = 'user001@test.com';
-var mid = 'user001';
+
+var email = 'user001s@test.com';
+var mid = 'user001s';
 var pwd = '1111';
 
 con.query(
@@ -23,7 +24,8 @@ con.query(
           values('${email}', '${mid}', password('${pwd}'))`,
          function(err, result) {
              if(err) throw err;
-         console.log(result);   
+         console.log(result);
+         console.log('입력 성공!');
 });
 
 con.end(function(err){

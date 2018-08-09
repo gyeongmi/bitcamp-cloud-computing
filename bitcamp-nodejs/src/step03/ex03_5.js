@@ -15,57 +15,42 @@ const url = require('url')
 const server = http.createServer((req, res) => {
     var urlInfo = url.parse(req.url, true);
     
-    if(urlInfo.pathname === '/favicon.ico') {
+    if (urlInfo.pathname === '/favicon.ico') {
         res.end();
         return;
     }
     
     console.log('요청 받았음!');
-    
+            
     res.writeHead(200, {
         'Content-Type': 'text/plain;charset=UTF-8'
     });
     
+    if (urlInfo.pathname !== '/calc') {
+        res.end('해당 URL을 지원하지 않습니다!');
+        return;
+    }
+    
     var a = parseInt(urlInfo.query.a)
     var b = parseInt(urlInfo.query.b)
     var op = urlInfo.query.op
+    var result = 0;
     
-    /*
-    switch(op){
-    case '+': res.write(`${a} + ${b} = ${a+b}`); break;
-    case '-': res.write(`${a} - ${b} = ${a-b}`); break;
-    case '*': res.write(`${a} * ${b} = ${a*b}`); break;
-    case '/': res.write(`${a} / ${b} = ${a/b}`); break;
+    switch (op) {
+    case '+': result = a + b; break;
+    case '-': result = a - b; break;
+    case '*': result = a * b; break;
+    case '/': result = a / b; break;
     default:
         res.write('${op} 연산자를 지원하지 않습니다.')
-        res.
-
-    }*/
-    
-    if(urlInfo.pathname === '/calc'){
-        if(urlInfo.query.op == '+'){
-            res.write(`${a} + ${b} = 
-            ${a+b} `)
-        } else if (urlInfo.query.op == '-'){
-            res.write(`${a} - ${b} = 
-            ${a-b} `)
-            
-        }  else if (urlInfo.query.op == '*'){
-            res.write(`${a} - ${b} = 
-            ${a*b} `)
-        }  else if (urlInfo.query.op == '/'){
-            res.write(`${a} - ${b} = 
-            ${a/b} `)
-        }
-            
-    } else{
-        res.write('해당 URL을 지원하지 않습니다!')
+        res.end();
+        return;
     }
-    
+
+    res.write(`${a} ${op} ${b} = ${result}\n`)
     res.end()
-    
 });
 
 server.listen(8000, () => {
-    console.log('서버가 시작됨!');
+    console.log('서버가 시작됨!')
 })

@@ -8,23 +8,22 @@ const mysql = require('mysql');
 
 var pool = mysql.createPool({
     connectionLimit: 10,
-    host: '13.209.21.223', 
+    host: '13.209.35.254', 
     //port: '3306',
     database: 'studydb',
     user: 'study',
     password: '1111'
 });
 
-const express = function(){ //익스프레스객체는 변수와 메소드 두개
+const express = {
     reqMap: {},
-    add(url, handler){
+    add(url, handler) {
         this.reqMap[url] = handler;
     },
-    get(url, handler){
-        return this.reqMap[url]
+    getHandler(url) {
+        return this.reqMap[url];
     }
 };
-
 
 const server = http.createServer((req, res) => {
     var urlInfo = url.parse(req.url, true);
@@ -41,18 +40,18 @@ const server = http.createServer((req, res) => {
     var handler = express.getHandler(urlInfo.pathname);
     
     if (handler) {
-        try{
-            
-        }catch(err){
-            
+        try {
+            handler(urlInfo, req, res);
+        } catch (err) {
+            res.end('실행 중 오류 발생!');
         }
-        list(urlInfo, req, res);
     } else {
         res.end('해당 URL을 지원하지 않습니다!');
         return;
     }
     
 });
+
 
 server.listen(8000, () => {
     console.log('서버가 시작됨!')
@@ -85,6 +84,7 @@ express.add('/member/list', (urlInfo, req, res) => {
         res.end();
     });
 });
+
 express.add('/member/add', (urlInfo, req, res) => {
     pool.query(
             'insert into pms2_member(mid,email,pwd)\
@@ -100,6 +100,7 @@ express.add('/member/add', (urlInfo, req, res) => {
             res.end();
     });
 });
+
 express.add('/member/update', (urlInfo, req, res) => {
     pool.query(
             'update pms2_member set\
@@ -119,16 +120,23 @@ express.add('/member/update', (urlInfo, req, res) => {
             res.end();
     });
 });
+
 express.add('/member/delete', (urlInfo, req, res) => {
     pool.query('delete from pms2_member where mid=?',
-            [urlInfo.query.id],
-            function(err, results) {
-                if (err) {
-                    res.end('DB 조회 중 예외 발생!')
-                    return;
-                }
-                
-                res.write('삭제 성공!')
-                res.end();
-        });
+        [urlInfo.query.id],
+        function(err, results) {
+            if (err) {
+                res.end('DB 조회 중 예외 발생!')
+                return;
+            }
+            
+            res.write('삭제 성공!')
+            res.end();
+    });
+});
+
+
+express.add('/hello', (urlInfo, req, res) => {
+    res.write(`${urlInfo.query.name}님 안녕하세요!`);
+    res.end();
 });

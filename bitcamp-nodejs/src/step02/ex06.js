@@ -9,7 +9,7 @@ var con = mysql.createConnection({
 });
 
 con.connect(function(err){
-    //if(err) throw err;
+    if(err) throw err;
     
     console.log('연결 성공입니다!');
     

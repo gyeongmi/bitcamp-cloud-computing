@@ -8,21 +8,22 @@ var con = mysql.createConnection({
     password: '1111'
 });
 
-con.connect(function(err){
-    //if(err) throw err;
+con.connect(function(err) {
+    if (err) throw err; 
     
     console.log('연결 성공입니다!');
     
-    //연결에 성공했을 때만 SQL을 실행하라고 예약한다.
+    // 연결에 성공했을 때만 SQL을 실행하라고 예약한다.
+    // => 이미 end가 예약 된 이후이기 때문에
+    //    end 후에 SQL 실행을 예약할 수 없어 오류 발생!
     con.query('select * from pms2_member', function(err, results) {
-        if(err) throw err;
+        if (err) throw err;
         
-        // results 파라미터에  결과가 들어 있다.
-        for (var row of results){
-            //row 객체에서 값을 꺼낼 때는 SQL에서 지정한 컬럼명 또는 별명을 사용한다.
+        // results 파라미터에 결과가 들어 있다.
+        for (var row of results) {
+            // row 객체에서 값을 꺼낼 때는 SQL에서 지정한 컬럼명 또는 별명을 사용한다.
             console.log(row.email, row.mid, row.pwd);
         }
-        console.log('결과를 가져왔다!');
     });
 });
 
@@ -33,10 +34,10 @@ con.connect(function(err){
 
 //해결책? sql 실행을 먼저 예약한 다음에 end를 예약하라!
 // => ex06.js를 보라.
-con.end(function(err){
-    if(err) throw err;
+con.end(function(err) {
+    if (err) throw err; 
+    
     console.log('연결을 끊었습니다!')
-});
-
+}); 
 
 console.log('select 실행!');

@@ -8,5 +8,5 @@ console.log("ex10_m", v1);
 // 글로벌 변수는 모든 모듈이 공유한다.
 console.log("global", global.v1);
 
-//값 바꾸기
+//모듈에서 글로벌 변수의 값을 바꾸기
 global.v1 = 300;
