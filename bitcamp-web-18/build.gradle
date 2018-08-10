@@ -21,10 +21,11 @@ compileJava {
     options.encoding = "UTF-8"
 }
 
+//3) 웹 애플리케이션의 버전 설정
 eclipse {
     wtp {
         facet {
-            facet name: 'jst.web', version: '3.1'
+            facet name: 'jst.web', version: '3.1' //서블릿 스펙 버전
         }
     }
 }
