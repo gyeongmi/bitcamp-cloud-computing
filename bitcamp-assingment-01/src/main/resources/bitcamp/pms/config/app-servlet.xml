@@ -19,19 +19,21 @@
                              규칙을 정의한 xml 스키마 파일 url(http://www.springframework.org/schema/*/spring-*.xsd) -->
         
         <!-- 웹 컴포넌트(페이지 컨트롤러 등)만 관리한다.  -->
-        <context:component-scan base-package="bitcamp.ass.controller">
+        <context:component-scan base-package="bitcamp.pms.controller">
             <context:exclude-filter type="regex" 
-                                    expression="bitcamp.ass.controller.json.*"/>
+                                    expression="bitcamp.pms.controller.json.*"/>
         </context:component-scan>
         
         <!-- Spring WebMVC 관련 애노테이션을 처리할 객체들을 등록한다. -->       
         <mvc:annotation-driven enable-matrix-variables="true"/>
         <!-- 기본적인 객체를 등록하게 되고 추가하게 되면 matrixvariable 처리할 수 있다-->
   
-        <!-- JSP 파일을 /WEB-INF/jsp 폴더에서 찾을 수 있도록 ViewResolver를 교체한다 -->
-        <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-            <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
-            <property name="prefix" value="/WEB-INF/jsp/"/>
-            <property name="suffix" value=".jsp"/>
-        </bean>
+		<!-- JSP 파일을 /WEB-INF/jsp 폴더에서 찾을 수 있도록 ViewResolver를 교체한다 -->
+		<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		    <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
+		    <property name="prefix" value="/WEB-INF/jsp/"/>
+		    <property name="suffix" value=".jsp"/>
+		</bean>
+
+
 </beans>

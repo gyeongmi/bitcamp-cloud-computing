@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/mvc 
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop.xsd">
+        <!-- namespace 이름(http://www.springframework.org/schema/*), 
+                             규칙을 정의한 xml 스키마 파일 url(http://www.springframework.org/schema/*/spring-*.xsd) -->
+        
+
+    <context:component-scan base-package="bitcamp.pms">
+        <context:exclude-filter type="regex" 
+                                expression="bitcamp.pms.controller.*"/>
+    </context:component-scan>
+    
+    <!-- 트랜잭션 관련 애노테이션을 처리할 객체들을 등록한다 -->
+    <tx:annotation-driven transaction-manager="txManager"/>
+    <!-- 이름을 지정해야 한다. 없는 경우 트랜잭션 이름이 transactionManager
+                         대신 트랜잭션 객체 이름도 txManager -> transactionManager -->
+    
+    <!-- 애노테이션이 아닌 AOP를 이용하여 트랜잭션을 관리할 수 있다 -->
+    <!-- 메서드 별로 트랜잭션을 어떻게 적용할지, 즉 트랜잭션 정책을 설정한다. -->
+    <!-- <tx:advice id="txAdvice" transaction-manager="txManager">
+     <tx:attributes>
+         all methods starting with 'get' are read-only
+         <tx:method name="get*" read-only="true"/> 메서드가 get으로 시작하는 경우 get*
+         <tx:method name="list*" read-only="true"/>
+         <tx:method name="*"/>
+     </tx:attributes>
+    </tx:advice> -->
+    <!-- 메서드가 get으로 시작하는 경우 get*-->
+    
+    <!-- 트랜잭션을 적용할 대상을 설정한다. -->
+    <!-- <aop:config> 
+        트랜잭션을 적용할 대상의 규칙을 선언
+        <aop:pointcut id="ServiceOperation" 
+            expression="execution(* bitcamp.pms.service.*.*(..))"/>
+            expression="execution(* bitcamp.pms.service.*.delete(..))"/>  update는 트랜잭션 대상X delete가 대상
+            
+                                실행할떄 이 메소드를 실행하라.리턴타입 상관없어 (*) 두번째 패키지명
+                                모든서비스클래스에대해서 모든 메서드가 대상
+            (..) : 메서드 파라미터값 상관없다
+
+        대상에 대해 어떤 트랜잭션을 적용할지 설정한다.
+          <aop:advisor advice-ref="txAdvice" 
+              pointcut-ref="ServiceOperation"/> 
+      </aop:config> -->
+   
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+	    <!-- <property name="configLocation"
+	  value="bitcamp/pms/config/mybatis-config.xml"/> 삭제 -->
+	  <property name="dataSource" ref="dataSource"></property>
+	  <!-- property name=은 setdataSource 메소드를 실행하는거고 ref는 아래에 bean id="dataSource"다 -->
+	 <!--  <property name="mapperLocations" value="classpath*:bitcamp/pms/sql/**/*.xml" /> --> <!-- classpath* 에서 찾아라 **(하위패키지, 하위 다 찾아서 mapper 파일 읽어라 -->
+	  <!-- <property name="typeAliasesPackage"
+	  value="bitcamp.pms.domain"/> -->
+	  <!-- setTypeAliasesPackage -->
+	</bean>
+	
+	 <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
+	    <property name="driverClassName" value="${jdbc.driver}" />
+	    <property name="url" value="${jdbc.url}" />
+	    <property name="username" value="${jdbc.username}" />
+	    <property name="password" value="${jdbc.password}" />
+	</bean> 
+	
+	<!-- 트랜잭션 매니저 -->
+	<bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+	        <property name="dataSource" ref="dataSource"/>
+	</bean>
+	
+	<!-- DAO 인터페이스로부터 DAO 구현체를 자동 생성하는 객체 등록 
+	   => DAO 구현체가 사용할 SQL 맵퍼 파일은 namespace 값으로 찾는다.
+	   => 따라서 인터페이스 명과 SQL 맵퍼의 namespace 값은 같아야 한다.
+	   => 또한 인터페이스의 메서드 명과 SQL id는 같아야 한다. -->
+	<!-- <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+	  <property name="basePackage"
+	            value="bitcamp.pms.dao" />
+	</bean> -->
+	
+	
+	<!-- .properties 파일을 읽어서 그 데이터를 보관할 객체를 등록한다. -->
+	<!-- 원래 같으면 properties 읽어들일 bean 태그를 작성해야 하는데 -->
+	<context:property-placeholder location="classpath:bitcamp/pms/config/jdbc.properties"/>
+
+</beans>

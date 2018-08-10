@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bitcamp.pms.dao.Memberdao">
+  <insert id="insert" parameterType="Member">
+    insert into c_member(mname,email,pwd) 
+    values(#{mname},#{email},password(#{pwd}))
+  </insert>
+  
+  <update id="update" parameterType="Member">
+    update c_member set 
+        email=#{email}, 
+        pwd=password(#{pwd}) 
+    where mno=#{mno}
+  </update>
+  
+  <delete id="delete" parameterType="string">
+    delete from c_member 
+    where mno=#{value}
+  </delete>
+  
+</mapper>
+
+
+
+
