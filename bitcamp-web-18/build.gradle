@@ -17,6 +17,7 @@ plugins {
     id 'war'
 }
 
+//소스코드에 한글이 들어가더라도 문제가 X
 compileJava {
     options.encoding = "UTF-8"
 }

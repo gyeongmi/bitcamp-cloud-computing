@@ -1,0 +1,8 @@
+plugins {
+    id 'eclipse' //웹 관련 배포
+    id 'java'
+}
+
+compileJava {
+    options.encoding = "UTF-8"
+}
