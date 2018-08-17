@@ -5,17 +5,15 @@
 <mapper namespace="bitcamp.assignment.repository.MemberRepository">
 
 <!--   클래스이름만 적어도 된다. type앨리시스.. -->
-  <insert id="insert" parameterType="Member">
-    insert into P2_MEMB(EMAIL,NAME,PWD) 
+  <insert id="insert" parameterType="member">
+    insert into P2_MEMB(EMAIL,NAME,PWD)
     values(#{email},#{name},password(#{password}))
   </insert>
   
-  <select id="findByEmailAndPassword" 
-  parameterType="member"
-  resultMap="member">
+  <select id="findByEmailAndPassword" parameterType="member" resultType="member">
     select EMAIL, NAME
     from P2_MEMB
-    where EMAIL = #{email} and PWD = #{password}
+    where EMAIL=#{email} and PWD=password(#{password})
   </select>
 </mapper>
 
