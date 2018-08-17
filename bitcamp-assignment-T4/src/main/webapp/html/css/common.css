@@ -1,0 +1,38 @@
+@charset "UTF-8";
+
+/* div, footer, span{
+	border: 1px solid red;
+	padding: 5px;
+	
+} */
+
+body{
+	font-size: small; /* 작은폰트 */
+}
+
+div{
+	/* border: 1px solid red;
+	padding: 5px; */
+}
+div.container {
+    width: 700px;
+}
+
+footer{
+	position: relative;
+	font-size: 80%;
+}
+
+footer #app-name{
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	
+}
+
+footer #copyright{
+	position: absolute;
+	right: 0px;
+	top: 0px;
+}
+/* footer에 relative 해 주지 않으면 footer 밑의 것들은 body의 자손이 된다.. 그래서 body 기준으로 absolute가 되는 것*/ 

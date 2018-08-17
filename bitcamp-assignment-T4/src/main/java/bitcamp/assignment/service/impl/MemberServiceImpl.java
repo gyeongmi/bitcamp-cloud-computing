@@ -1,0 +1,29 @@
+package bitcamp.assignment.service.impl;
+
+import java.util.HashMap;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import bitcamp.assignment.domain.Member;
+import bitcamp.assignment.repository.MemberRepository;
+import bitcamp.assignment.service.MemberService;
+
+public class MemberServiceImpl implements MemberService {
+    
+    @Autowired MemberRepository memberRepository;
+
+    @Override
+    public int add(Member member) {
+        return memberRepository.insert(member);
+        //insert 개수, update 개수, delete 개수를 리턴하기 때문에 int!!
+    }
+
+    @Override
+    public Member findByEmailAndPassword(String email, String password) {
+        HashMap<String, Object> params = new HashMap<>();
+        params.put("email", email);
+        params.put("password", password);
+        
+        return memberRepository.findByEmailAndPassword();
+    }
+}
