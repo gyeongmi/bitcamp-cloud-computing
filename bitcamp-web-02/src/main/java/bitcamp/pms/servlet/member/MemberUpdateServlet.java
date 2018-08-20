@@ -30,7 +30,7 @@ public class MemberUpdateServlet extends HttpServlet{
         out.println("<html>");
         out.println("<head>");
         out.println("<meta charset='UTF-8'>");
-        out.println("<meta http-equiv='Refresh' content='1;url=list'>");
+        //out.println("<meta http-equiv='Refresh' content='1;url=list'>");
         out.println("<title>회원 변경</title>");
         out.println("</head>");
         out.println("<body>");
@@ -41,7 +41,7 @@ public class MemberUpdateServlet extends HttpServlet{
             Class.forName("com.mysql.jdbc.Driver");
             try (
                 Connection con = DriverManager.getConnection(
-                    "jdbc:mysql://13.124.153.245:3306/studydb",
+                    "jdbc:mysql://13.209.21.223:3306/studydb",
                     "study", "1111");
                 PreparedStatement stmt = con.prepareStatement(
                     "update pms2_member set email=?, pwd=password(?) where mid=?");) {
