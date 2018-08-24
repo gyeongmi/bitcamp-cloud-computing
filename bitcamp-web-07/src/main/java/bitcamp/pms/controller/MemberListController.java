@@ -43,7 +43,7 @@ public class MemberListController implements PageController{
             params.put("pageSize", size);
         }
         
-
+        
         List<Member> list = memberDao.selectList(params);
         request.setAttribute("list", list);
         

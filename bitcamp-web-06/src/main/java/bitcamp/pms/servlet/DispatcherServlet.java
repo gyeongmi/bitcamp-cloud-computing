@@ -27,16 +27,15 @@ public class DispatcherServlet extends HttpServlet {
         
         // 페이지 컨트롤러가 실행을 끝낸후 view 이름으로 저장한 JSP를 실행한다.
         String view = (String) request.getAttribute("view");
-            if(view != null && view.startsWith("redirect:")) {
-                response.sendRedirect(view.substring(9));
-            }else if (view != null){
-                rd =request.getRequestDispatcher(view);
-                rd.include(request, response);
-            }else {
-                rd = request.getRequestDispatcher("/error.jsp");
-                rd.forward(request, response);
-            }
-       
+        
+        if(view != null && view.startsWith("redirect:")) {
+            response.sendRedirect(view.substring(9));
+        }else if (view != null){
+            rd =request.getRequestDispatcher(view);
+            rd.include(request, response);
+        }else {
+            rd = request.getRequestDispatcher("/error.jsp");
+            rd.forward(request, response);
         }
-
+    }
 }

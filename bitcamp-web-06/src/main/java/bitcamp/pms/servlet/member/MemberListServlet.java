@@ -49,6 +49,7 @@ public class MemberListServlet extends HttpServlet {
             MemberDao memberDao = (MemberDao) getServletContext().getAttribute("memberDao");
 
             List<Member> list = memberDao.selectList(params);
+            
             request.setAttribute("list", list);
             //member dao 리턴하는 list(select list 호출)를 리퀘스트에 담는다.
             //요청이 들어올 때 http 서블릿리퀘스트 객체가 만들어져서 응답할때까지 계속 유지된다

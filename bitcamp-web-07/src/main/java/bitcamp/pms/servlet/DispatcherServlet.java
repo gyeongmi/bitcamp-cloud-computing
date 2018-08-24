@@ -50,6 +50,7 @@ public class DispatcherServlet extends HttpServlet {
                     request.getRequestDispatcher("/error.jsp");
             rd.forward(request, response);
         }
+
     }
 
 }
