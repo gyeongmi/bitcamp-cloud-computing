@@ -6,7 +6,7 @@
 <!-- typeAliases 패키지 name 설정하고 membermapper로 감 -->
 <properties resource="bitcamp/pms/config/jdbc.properties"></properties>
 <typeAliases>
-    <package name="bitcamp.pms.domain"/>    
+    <package name="bitcamp.pms.domain"/>
 </typeAliases>
   <environments default="development">
     <environment id="development">

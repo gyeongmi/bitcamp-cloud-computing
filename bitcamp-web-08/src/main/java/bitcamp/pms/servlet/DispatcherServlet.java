@@ -40,6 +40,7 @@ public class DispatcherServlet extends HttpServlet {
             //페이지 컨트롤러에 있는 메서드 중에서 @RequestMapping이라는
             //애노테이션이 붙은 메서드를 찾아 호출한다.
             Method requestHandler = getRequestHandler(pageController.getClass());
+            //System.out.println(pageController.getClass());
             //클래스를 찾아서 메소드 정보를 리턴해줄래??
             //페이지컨트롤러의 클래스 정보
             //오브젝트에 존재하는 모든 자바클래스는 자기자신을 리턴하는 tostring
@@ -85,6 +86,7 @@ public class DispatcherServlet extends HttpServlet {
             // 애노테이션, 인터페이스, 클래스... 등 다 클래스변수가 있따. 바이트코드라 class로 저장되기 떄문
             
             //애노테이션 정보를 담은 객체를 리턴 = anno
+            //System.out.println(anno);
             if(anno != null)
                 return m;
         }

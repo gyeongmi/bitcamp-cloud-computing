@@ -11,6 +11,7 @@ $('#name-list').on('click', 'li', (e) => {
     $(e.target).addClass('list-group-item-secondary');
     
     var no = $(e.target).attr('data-no');
+    console.log(no);
     $(document.body).trigger('show.detail', [no]);
 });
 

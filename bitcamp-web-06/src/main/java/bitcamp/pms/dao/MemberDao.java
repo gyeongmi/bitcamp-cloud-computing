@@ -40,11 +40,10 @@ public class MemberDao {
         */
     }
     
-    
-    
     public List<Member> selectList(Map<String,Object> params) throws Exception{ 
         try (SqlSession sqlSession = sqlSessionFactory.openSession()){
             return sqlSession.selectList("member.selectList", params);
+            // MemberMapper의 <mapper namespace="member"> == member.
         }
     }
     
