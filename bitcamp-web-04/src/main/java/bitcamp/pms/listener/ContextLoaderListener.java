@@ -13,7 +13,7 @@ public class ContextLoaderListener implements ServletContextListener{
     public void contextInitialized(ServletContextEvent sce) {
         System.out.println("ContextLoaderListener 실행!"); //서버리스타트하고 콘솔 확인
         MemberDao memberDao = new MemberDao(
-                "jdbc:mysql://13.124.153.245:3306/studydb",
+                "jdbc:mysql://13.209.21.223:3306/studydb",
                 "study", "1111");
         ServletContext sc = sce.getServletContext();
         sc.setAttribute("memberDao", memberDao); //memberDao 이런 문자열로 리턴해준다
